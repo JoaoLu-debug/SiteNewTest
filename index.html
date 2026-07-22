@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SYNAPSE // Estúdio de Desenvolvimento Web & Design Contemporâneo</title>
+  <meta name="description" content="Estúdio boutique de desenvolvimento web e design de interfaces. Estética contemporânea, engenharia precisa e soluções digitais premium.">
+  
+  <!-- Fontes Premium -->
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@500;600;700&f[]=general-sans@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Cursor Customizado -->
+  <div class="custom-cursor"></div>
+  <div class="custom-cursor-dot"></div>
+
+  <!-- Warp Blobs Atmosféricos de Fundo -->
+  <div class="warp-blobs-container">
+    <div class="warp-blob blob-1"></div>
+    <div class="warp-blob blob-2"></div>
+    <div class="warp-blob blob-3"></div>
+  </div>
+
+  <!-- Filtro SVG para o efeito Warp/Liquid/Smoke -->
+  <svg class="svg-filters" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="warp-filter">
+        <!-- Cria uma turbulência que gera uma distorção fluida orgânica -->
+        <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="4" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="180" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Container de Bordas Globais e Crop Marks de Impressão -->
+  <div class="crop-mark top-left">+</div>
+  <div class="crop-mark top-right">+</div>
+  <div class="crop-mark bottom-left">+</div>
+  <div class="crop-mark bottom-right">+</div>
+
+  <div class="global-border-left"></div>
+  <div class="global-border-right"></div>
+
+  <!-- 1. HERO SECTION -->
+  <section class="section-hero" id="hero">
+    <div class="grid-container">
+      
+      <!-- Header Fino -->
+      <header class="hero-header">
+        <div class="header-logo hover-target">
+          <span class="logo-symbol">+</span> SYNAPSE // LAB
+        </div>
+        <div class="header-tagline">
+          [ ARCHITECTURE OF DIGITAL EXPERIENCES ]
+        </div>
+        <div class="header-meta">
+          <span class="time-display">12:00:00 UTC-3</span>
+          <span class="divider">/</span>
+          <span class="version-display">V2.026_SYS</span>
+        </div>
+        <div class="header-action hover-target" aria-label="Menu de Navegação">
+          <div class="menu-btn-circle">
+            <span class="circle-dot"></span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Elementos Decorativos Laterais (Colophon) -->
+      <div class="colophon-left">
+        <span class="colophon-text">SWISS GRAPHIC TRADITION • RE-IMAGINED IN CODE</span>
+      </div>
+      <div class="colophon-right">
+        <span class="colophon-text">LATITUDE: -23.5505° S, LONGITUDE: -46.6333° W</span>
+      </div>
+
+      <!-- Área Central do Título com Elementos Orbitais -->
+      <div class="hero-center">
+        <!-- SVG Orbital sobreposto -->
+        <div class="orbital-container">
+          <svg viewBox="0 0 800 400" width="100%" height="100%">
+            <!-- Órbita 1 -->
+            <ellipse cx="400" cy="200" rx="360" ry="120" class="orbital-line line-1" />
+            <!-- Órbita 2 -->
+            <ellipse cx="400" cy="200" rx="340" ry="80" class="orbital-line line-2" />
+            <!-- Órbita 3 -->
+            <ellipse cx="400" cy="200" rx="380" ry="150" class="orbital-line line-3" />
+            <!-- Estrelas de registro -->
+            <path d="M 120 160 L 130 160 M 125 155 L 125 165" class="orbital-marker" />
+            <path d="M 680 240 L 690 240 M 685 235 L 685 245" class="orbital-marker" />
+          </svg>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="line-reveal">EXPERIMENTAL</span>
+          <span class="line-reveal orange-text">DEVELOPMENT.</span>
+        </h1>
+
+        <!-- Microlabels Flutuantes -->
+        <div class="micro-label label-1">*DIVERGENTE</div>
+        <div class="micro-label label-2">*CRIATIVO</div>
+        <div class="micro-label label-3">*PRECISO</div>
+
+        <!-- Numeração Técnica estilo catálogo -->
+        <div class="technical-number">00.42g // DSGN-2026</div>
+      </div>
+
+      <!-- Rodapé do Hero -->
+      <footer class="hero-footer">
+        <a href="#trabalhos" class="cta-primary hover-target">
+          <span class="cta-arrow">→</span>
+          <span class="cta-text">VER TRABALHOS / INICIAR PROJETO</span>
+        </a>
+        <div class="hero-footer-specs">
+          <div class="spec-item">
+            <span class="spec-label">ESTILO:</span>
+            <span class="spec-value">MODERNO SUÍÇO</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">FPS DA PÁGINA:</span>
+            <span class="spec-value fps-value">60 FPS</span>
+          </div>
+        </div>
+        <div class="action-btn-container hover-target" id="zoom-action">
+          <button class="action-btn-circle" aria-label="Expandir Interface">
+            <div class="zoom-icon">
+              <span class="arrow-up-right">↗</span>
+              <span class="arrow-down-left">↙</span>
+            </div>
+          </button>
+        </div>
+      </footer>
+
+    </div>
+  </section>
+
+  <!-- 2. TRUST BAR (MARQUEE) -->
+  <section class="section-trust">
+    <div class="marquee-container">
+      <div class="marquee-track">
+        <span>REACT • NEXT.JS • TYPESCRIPT • TAILWIND • WEBGL • CREATIVE DEV • CUSTOM SHADERS • NODE.JS • GSAP • THREE.JS • </span>
+        <span>REACT • NEXT.JS • TYPESCRIPT • TAILWIND • WEBGL • CREATIVE DEV • CUSTOM SHADERS • NODE.JS • GSAP • THREE.JS • </span>
+        <span>REACT • NEXT.JS • TYPESCRIPT • TAILWIND • WEBGL • CREATIVE DEV • CUSTOM SHADERS • NODE.JS • GSAP • THREE.JS • </span>
+        <span>REACT • NEXT.JS • TYPESCRIPT • TAILWIND • WEBGL • CREATIVE DEV • CUSTOM SHADERS • NODE.JS • GSAP • THREE.JS • </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. MANIFESTO -->
+  <section class="section-manifesto" id="manifesto">
+    <div class="grid-container">
+      <div class="manifesto-label">
+        <span class="cruz">+</span> [ 01 — SOBRE / MANIFESTO ]
+      </div>
+      
+      <div class="manifesto-content">
+        <p class="manifesto-text">
+          Desenvolvemos arquiteturas digitais que desafiam o óbvio. Unindo a precisão técnica da <strong class="hover-target">engenharia suíça</strong> à expressividade do design contemporâneo, transformamos conceitos complexos em interfaces digitais inesquecíveis, rápidas e memoráveis.
+        </p>
+      </div>
+
+      <div class="manifesto-footer">
+        <span class="tech-spec">DSGN-MFT-26 // CODE.CORE.DESIGN</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SERVIÇOS -->
+  <section class="section-services" id="servicos">
+    <div class="grid-container">
+      <div class="section-title-wrapper">
+        <span class="cruz">+</span>
+        <span class="section-title-label">[ 02 — SERVIÇOS E COMPETÊNCIAS ]</span>
+      </div>
+
+      <div class="services-grid">
+        <!-- Card 1 -->
+        <div class="service-card hover-target">
+          <div class="card-border-top"></div>
+          <div class="card-header">
+            <span class="card-num">01/03</span>
+            <span class="card-code">SVC-CDV-01</span>
+          </div>
+          <h3 class="card-title">CREATIVE DEVELOPMENT</h3>
+          <p class="card-desc">Desenvolvimento front-end premium com animações fluidas, efeitos de WebGL personalizados, shaders interativos e experiência de scroll imersiva.</p>
+          <div class="card-arrow">↗</div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="service-card hover-target">
+          <div class="card-border-top"></div>
+          <div class="card-header">
+            <span class="card-num">02/03</span>
+            <span class="card-code">SVC-UIX-02</span>
+          </div>
+          <h3 class="card-title">EDITORIAL ART DIRECTION</h3>
+          <p class="card-desc">Direção de arte conceitual e design de interfaces focado em layouts editoriais assimétricos, tipografia dramática e contrastes marcantes.</p>
+          <div class="card-arrow">↗</div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="service-card hover-target">
+          <div class="card-border-top"></div>
+          <div class="card-header">
+            <span class="card-num">03/03</span>
+            <span class="card-code">SVC-FST-03</span>
+          </div>
+          <h3 class="card-title">FULLSTACK ENGINEERING</h3>
+          <p class="card-desc">Arquitetura de sistemas robusta, APIs ultra-rápidas utilizando Next.js, Node.js e bancos de dados relacionais com foco em performance bruta.</p>
+          <div class="card-arrow">↗</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. PROCESSO -->
+  <section class="section-process" id="processo">
+    <div class="grid-container">
+      <div class="section-title-wrapper">
+        <span class="cruz">+</span>
+        <span class="section-title-label">[ 03 — PROCESSO DE CRIAÇÃO ]</span>
+      </div>
+
+      <!-- Timeline Horizontal -->
+      <div class="process-timeline-container">
+        <div class="timeline-line">
+          <div class="timeline-progress"></div>
+        </div>
+        
+        <div class="process-steps">
+          <!-- Etapa 1 -->
+          <div class="process-step hover-target active" data-step="0">
+            <div class="step-marker">
+              <span class="step-num">00</span>
+              <div class="step-dot"></div>
+            </div>
+            <div class="step-content">
+              <h4 class="step-title">ANÁLISE E CONCEITO</h4>
+              <p class="step-desc">Mapeamento de objetivos, desconstrução tipográfica, referências visuais contemporâneas e planejamento estrutural.</p>
+            </div>
+          </div>
+
+          <!-- Etapa 2 -->
+          <div class="process-step hover-target" data-step="1">
+            <div class="step-marker">
+              <span class="step-num">01</span>
+              <div class="step-dot"></div>
+            </div>
+            <div class="step-content">
+              <h4 class="step-title">PROTOTIPAGEM GRÁFICA</h4>
+              <p class="step-desc">Definição do grid, testes tipográficos de display, posicionamento dos elementos estruturais e microtexto técnico.</p>
+            </div>
+          </div>
+
+          <!-- Etapa 3 -->
+          <div class="process-step hover-target" data-step="2">
+            <div class="step-marker">
+              <span class="step-num">02</span>
+              <div class="step-dot"></div>
+            </div>
+            <div class="step-content">
+              <h4 class="step-title">DESENVOLVIMENTO DE INTERAÇÃO</h4>
+              <p class="step-desc">Programação de animações de transição, física de movimento no cursor, efeitos warp nos blobs laranja e lógica front-end.</p>
+            </div>
+          </div>
+
+          <!-- Etapa 4 -->
+          <div class="process-step hover-target" data-step="3">
+            <div class="step-marker">
+              <span class="step-num">03</span>
+              <div class="step-dot"></div>
+            </div>
+            <div class="step-content">
+              <h4 class="step-title">INTEGRAÇÃO E BACK-END</h4>
+              <p class="step-desc">Conexão de APIs, otimização de consultas ao banco de dados, servidores Edge e infraestrutura escalável.</p>
+            </div>
+          </div>
+
+          <!-- Etapa 5 -->
+          <div class="process-step hover-target" data-step="4">
+            <div class="step-marker">
+              <span class="step-num">04</span>
+              <div class="step-dot"></div>
+            </div>
+            <div class="step-content">
+              <h4 class="step-title">OTIMIZAÇÃO E DEPLOY</h4>
+              <p class="step-desc">Auditorias de performance (Lighthouse 100/100), testes de renderização cruzada e publicação em redes de CDN globais.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. TRABALHOS SELECIONADOS -->
+  <section class="section-works" id="trabalhos">
+    <div class="grid-container">
+      <div class="section-title-wrapper">
+        <span class="cruz">+</span>
+        <span class="section-title-label">[ 04 — TRABALHOS SELECIONADOS ]</span>
+      </div>
+
+      <div class="works-grid">
+        <!-- Item Grande 1 -->
+        <div class="work-card large hover-target">
+          <div class="work-image-wrapper">
+            <div class="work-image-placeholder img-1"></div>
+            <div class="work-overlay">
+              <div class="overlay-specs">
+                <span>CLIENTE: AETHER LABS</span>
+                <span>ANO: 2026</span>
+                <span>STACK: NEXT.JS + WEBGL</span>
+              </div>
+            </div>
+          </div>
+          <div class="work-info">
+            <h4 class="work-title">AETHER INTERACTION SYSTEM ↗</h4>
+            <span class="work-category">CREATIVE FRONT-END</span>
+          </div>
+        </div>
+
+        <!-- Item Grande 2 -->
+        <div class="work-card large hover-target">
+          <div class="work-image-wrapper">
+            <div class="work-image-placeholder img-2"></div>
+            <div class="work-overlay">
+              <div class="overlay-specs">
+                <span>CLIENTE: CHROMA GALLERY</span>
+                <span>ANO: 2025</span>
+                <span>STACK: REACT + THREE.JS</span>
+              </div>
+            </div>
+          </div>
+          <div class="work-info">
+            <h4 class="work-title">CHROMA ART PLATFORM ↗</h4>
+            <span class="work-category">3D WEB APPLICATION</span>
+          </div>
+        </div>
+
+        <!-- Item Pequeno 1 -->
+        <div class="work-card small hover-target">
+          <div class="work-image-wrapper">
+            <div class="work-image-placeholder img-3"></div>
+            <div class="work-overlay">
+              <div class="overlay-specs">
+                <span>CLIENTE: ONYX LABEL</span>
+                <span>ANO: 2026</span>
+                <span>STACK: VANILLA JS + SHADERS</span>
+              </div>
+            </div>
+          </div>
+          <div class="work-info">
+            <h4 class="work-title">ONYX DIGITAL CATALOGUE ↗</h4>
+            <span class="work-category">E-COMMERCE SUITE</span>
+          </div>
+        </div>
+
+        <!-- Item Pequeno 2 -->
+        <div class="work-card small hover-target">
+          <div class="work-image-wrapper">
+            <div class="work-image-placeholder img-4"></div>
+            <div class="work-overlay">
+              <div class="overlay-specs">
+                <span>CLIENTE: KINETIK EXHIBIT</span>
+                <span>ANO: 2025</span>
+                <span>STACK: NODE.JS + GSAP</span>
+              </div>
+            </div>
+          </div>
+          <div class="work-info">
+            <h4 class="work-title">KINETIK KINETIC TYPOGRAPHY ↗</h4>
+            <span class="work-category">DIGITAL INSTALLATION</span>
+          </div>
+        </div>
+
+        <!-- Item Pequeno 3 -->
+        <div class="work-card small hover-target">
+          <div class="work-image-wrapper">
+            <div class="work-image-placeholder img-5"></div>
+            <div class="work-overlay">
+              <div class="overlay-specs">
+                <span>CLIENTE: HELIOS ENERGIES</span>
+                <span>ANO: 2026</span>
+                <span>STACK: NEXT.JS + PRISMA</span>
+              </div>
+            </div>
+          </div>
+          <div class="work-info">
+            <h4 class="work-title">HELIOS RENEWABLE DASHBOARD ↗</h4>
+            <span class="work-category">DATA VISUALIZATION</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. DEPOIMENTOS -->
+  <section class="section-testimonials" id="depoimentos">
+    <div class="grid-container">
+      <div class="section-title-wrapper">
+        <span class="cruz">+</span>
+        <span class="section-title-label">[ 05 — FEEDBACK / PARCEIROS ]</span>
+      </div>
+
+      <div class="testimonial-wrapper">
+        <blockquote class="testimonial-quote">
+          "A equipe do Synapse Lab elevou nossa presença digital a um patamar que não imaginávamos possível. O alinhamento entre sua técnica refinada e estética editorial contemporânea transformou nosso produto."
+        </blockquote>
+        <div class="testimonial-author">
+          <span class="author-name">MARCUS BERNHARD</span>
+          <span class="author-title">/ DIRETOR DE TECNOLOGIA, AETHER LABS</span>
+        </div>
+        <div class="testimonial-spec">
+          REF-ID: 99.412.AETH // CODE-VERIFIED
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. CTA FINAL -->
+  <section class="section-cta-final" id="contato">
+    <div class="grid-container">
+      <div class="cta-label">[ 06 — ENTRAR EM CONTATO ]</div>
+      
+      <div class="cta-content-wrapper">
+        <h2 class="cta-title">
+          VAMOS CONSTRUIR <br>
+          <span class="orange-text">O SEU PRÓXIMO SISTEMA?</span>
+        </h2>
+        
+        <div class="cta-buttons">
+          <a href="mailto:hello@synapselab.ch" class="cta-button-main hover-target">
+            <span>INICIAR PROJETO</span>
+            <div class="arrow-circle">↗</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="cta-decorations">
+        <div class="cruz">+</div>
+        <div class="cruz">+</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. FOOTER -->
+  <footer class="section-footer">
+    <div class="grid-container">
+      <div class="footer-grid">
+        
+        <!-- Coluna 1: Links de Navegação -->
+        <div class="footer-col">
+          <span class="col-title">[ NAVEGAÇÃO ]</span>
+          <ul class="col-links">
+            <li><a href="#hero" class="hover-target">00_INÍCIO</a></li>
+            <li><a href="#manifesto" class="hover-target">01_MANIFESTO</a></li>
+            <li><a href="#servicos" class="hover-target">02_SERVIÇOS</a></li>
+            <li><a href="#processo" class="hover-target">03_PROCESSO</a></li>
+            <li><a href="#trabalhos" class="hover-target">04_TRABALHOS</a></li>
+            <li><a href="#contato" class="hover-target">05_CONTATO</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 2: Redes e Plataformas -->
+        <div class="footer-col">
+          <span class="col-title">[ REDES / EXP ]</span>
+          <ul class="col-links">
+            <li><a href="https://github.com" target="_blank" rel="noopener" class="hover-target">GITHUB ↗</a></li>
+            <li><a href="https://linkedin.com" target="_blank" rel="noopener" class="hover-target">LINKEDIN ↗</a></li>
+            <li><a href="https://behance.net" target="_blank" rel="noopener" class="hover-target">BEHANCE ↗</a></li>
+            <li><a href="https://dribbble.com" target="_blank" rel="noopener" class="hover-target">DRIBBBLE ↗</a></li>
+            <li><a href="https://instagram.com" target="_blank" rel="noopener" class="hover-target">INSTAGRAM ↗</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: Endereço / Coordenadas / Relógio -->
+        <div class="footer-col text-col">
+          <span class="col-title">[ INFORMAÇÃO ]</span>
+          <p class="footer-text-content">
+            SYNAPSE LAB INC.<br>
+            ZÜRICH, SUÍÇA (REMOTO)<br>
+            COORDENADAS: 47.3769° N, 8.5417° E<br>
+            FUSO HORÁRIO: <span class="footer-clock">00:00:00 GMT+1</span>
+          </p>
+        </div>
+
+        <!-- Coluna 4: Créditos Finais -->
+        <div class="footer-col credits-col">
+          <span class="col-title">[ CRÉDITOS ]</span>
+          <p class="footer-text-content">
+            CONCEITO VISUAL: SWISS LAB<br>
+            CÓDIGO & ART: ANTIGRAVITY<br>
+            ©2026 TODOS OS DIREITOS RESERVADOS
+          </p>
+        </div>
+      </div>
+
+      <!-- Barra final do Footer -->
+      <div class="footer-bottom">
+        <div class="footer-logo">
+          <span>SYNAPSE // LAB</span>
+        </div>
+        <div class="footer-specs">
+          <span>CODE-EAN-13: 7611112223334</span>
+          <span class="divider">|</span>
+          <span>ESTADO: ESTÁVEL</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
