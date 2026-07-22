@@ -1,11 +1,11 @@
 /* ==========================================================================
-   SYNAPSE LAB // SYSTEM DESIGN SYSTEM & STYLING
+   SYNAPSE LAB // SYSTEM DESIGN SYSTEM & STYLING (OPTIMIZED FOR 60FPS)
    Estética Editorial de Luxo / Design Gráfico Contemporâneo Suíço
    ========================================================================== */
 
 /* 1. VARIÁVEIS E CONFIGURAÇÃO BASE */
 :root {
-  --color-bg: #F7F5F1;            /* Off-white / Creme */
+  --color-bg: #F7F5F1;            /* Creme Off-white padrão */
   --color-fg: #0A0A0A;            /* Preto profundo */
   --color-accent: #FF5500;        /* Laranja vibrante principal */
   --color-accent-grad-1: #FF6A00; /* Laranja gradiente início */
@@ -19,6 +19,17 @@
   --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
   
   --grid-margin: 3.5vw;
+  --theme-transition: background-color 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+                      color 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+                      border-color 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Redefinição do Tema Escuro Gradual */
+body.dark-mode {
+  --color-bg: #0A0A0A;            /* Preto profundo de fundo */
+  --color-fg: #F7F5F1;            /* Creme Off-white para tipografia */
+  --color-border: rgba(247, 245, 241, 0.08); /* Borda fina clara */
+  --color-border-active: rgba(255, 85, 0, 0.4);
 }
 
 /* Reset Geral */
@@ -26,7 +37,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  cursor: none; /* Oculta cursor padrão para usar o customizado */
+  cursor: none; /* Oculta cursor padrão */
 }
 
 html {
@@ -37,12 +48,16 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  transition: var(--theme-transition);
 }
 
 body {
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  transition: var(--theme-transition);
 }
 
 /* 2. LAYOUT E BORDAS GLOBAIS (CROP MARKS / GRID) */
@@ -54,12 +69,13 @@ body {
   background-color: var(--color-border);
   z-index: 100;
   pointer-events: none;
+  transition: var(--theme-transition);
 }
 
 .global-border-left { left: var(--grid-margin); }
 .global-border-right { right: var(--grid-margin); }
 
-/* Crop Marks (Marcas de Registro de Impressão) nos cantos */
+/* Crop Marks nos cantos */
 .crop-mark {
   position: fixed;
   font-family: var(--font-mono);
@@ -68,6 +84,11 @@ body {
   color: rgba(10, 10, 10, 0.3);
   z-index: 101;
   pointer-events: none;
+  transition: var(--theme-transition);
+}
+
+body.dark-mode .crop-mark {
+  color: rgba(247, 245, 241, 0.2);
 }
 
 .top-left { top: 15px; left: 15px; }
@@ -92,9 +113,14 @@ body {
   margin-right: 8px;
   display: inline-block;
   transform: translateY(-1px);
+  transition: color 0.8s, text-shadow 0.8s;
 }
 
-/* 3. ATMOSPHERIC WARP BLOBS (Liquid Orange Gradients) */
+body.dark-mode .cruz {
+  text-shadow: 0 0 8px rgba(255, 85, 0, 0.4);
+}
+
+/* 3. GPU-ACCELERATED BACKGROUND BLOBS (Otimizados para 60FPS) */
 .warp-blobs-container {
   position: fixed;
   top: 0;
@@ -109,11 +135,16 @@ body {
 .warp-blob {
   position: absolute;
   border-radius: 50%;
-  filter: url(#warp-filter) blur(80px); /* Aplica filtro SVG e blur pesado */
-  mix-blend-mode: multiply;
+  /* Desfoque CSS nativo acelerado por GPU (eliminando feDisplacementMap lento) */
+  filter: blur(90px) saturate(1.4);
   opacity: 0.75;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-in-out;
   will-change: transform;
+}
+
+/* Suavização de opacidade dos blobs no modo escuro para focar nos componentes de UI */
+body.dark-mode .warp-blob {
+  opacity: 0.12; /* Fundo extremamente sutil/atmosférico no modo escuro */
 }
 
 /* Blob 1 - Hero background */
@@ -124,10 +155,10 @@ body {
   height: 45vw;
   background: radial-gradient(circle, 
     var(--color-accent-grad-1) 0%, 
-    rgba(255, 61, 0, 0.7) 35%, 
-    rgba(255, 179, 0, 0.2) 65%, 
+    rgba(255, 61, 0, 0.75) 35%, 
+    rgba(255, 179, 0, 0.25) 65%, 
     rgba(247, 245, 241, 0) 100%);
-  animation: float-blob-1 30s infinite alternate ease-in-out;
+  animation: float-blob-1 25s infinite alternate ease-in-out;
 }
 
 /* Blob 2 - Manifesto / Services background */
@@ -141,7 +172,7 @@ body {
     var(--color-accent-amber) 40%, 
     rgba(255, 85, 0, 0.1) 70%, 
     rgba(247, 245, 241, 0) 100%);
-  animation: float-blob-2 25s infinite alternate ease-in-out;
+  animation: float-blob-2 20s infinite alternate ease-in-out;
 }
 
 /* Blob 3 - CTA final background */
@@ -155,34 +186,31 @@ body {
     var(--color-accent-grad-1) 30%, 
     rgba(255, 179, 0, 0.3) 60%, 
     rgba(247, 245, 241, 0) 100%);
-  animation: float-blob-3 35s infinite alternate ease-in-out;
+  animation: float-blob-3 30s infinite alternate ease-in-out;
 }
 
-/* Animações Flutuantes dos Blobs */
+/* Animações Flutuantes dos Blobs (Trabalhando apenas com translates para evitar layouts reflows) */
 @keyframes float-blob-1 {
-  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-  50% { transform: translate(-5%, 8%) rotate(90deg) scale(1.1); }
-  100% { transform: translate(5%, -5%) rotate(180deg) scale(0.9); }
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+  50% { transform: translate3d(-4%, 6%, 0) rotate(60deg) scale(1.05); }
+  100% { transform: translate3d(4%, -4%, 0) rotate(120deg) scale(0.95); }
 }
 
 @keyframes float-blob-2 {
-  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-  50% { transform: translate(8%, -6%) rotate(-120deg) scale(0.9); }
-  100% { transform: translate(-4%, 5%) rotate(-240deg) scale(1.1); }
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+  50% { transform: translate3d(6%, -5%, 0) rotate(-80deg) scale(0.95); }
+  100% { transform: translate3d(-3%, 4%, 0) rotate(-160deg) scale(1.05); }
 }
 
 @keyframes float-blob-3 {
-  0% { transform: translate(0, 0) rotate(0deg) scale(0.95); }
-  50% { transform: translate(-3%, -7%) rotate(60deg) scale(1.05); }
-  100% { transform: translate(6%, 6%) rotate(120deg) scale(0.95); }
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(0.95); }
+  50% { transform: translate3d(-2%, -5%, 0) rotate(45deg) scale(1.02); }
+  100% { transform: translate3d(4%, 4%, 0) rotate(90deg) scale(0.95); }
 }
 
-/* SVG filters escondidos */
+/* Desativa filtros SVG pesados que causavam gargalos na CPU */
 .svg-filters {
-  position: absolute;
-  width: 0;
-  height: 0;
-  pointer-events: none;
+  display: none;
 }
 
 /* 4. CURSOR CUSTOMIZADO */
@@ -196,7 +224,7 @@ body {
   pointer-events: none;
   z-index: 9999;
   transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s, transform 0.05s ease-out;
-  mix-blend-mode: difference; /* Efeito de inversão sobre o texto */
+  mix-blend-mode: difference; /* Perfeito para transição claro/escuro */
 }
 
 .custom-cursor-dot {
@@ -208,7 +236,7 @@ body {
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 10000;
-  transition: transform 0.1s ease-out;
+  transition: transform 0.1s ease-out, background-color 0.3s;
 }
 
 /* Estados Especiais do Cursor (em hover) */
@@ -219,6 +247,12 @@ body {
   border-color: var(--color-fg);
   opacity: 0.15;
   mix-blend-mode: normal;
+}
+
+body.dark-mode .custom-cursor.hovering {
+  background-color: var(--color-fg);
+  border-color: var(--color-fg);
+  opacity: 0.22;
 }
 
 .custom-cursor-dot.hovering {
@@ -251,6 +285,7 @@ body {
   border-bottom: 1px solid var(--color-border);
   padding-top: 2vh;
   padding-bottom: 4vh;
+  transition: var(--theme-transition);
 }
 
 /* Header Fino */
@@ -261,6 +296,7 @@ body {
   border-bottom: 1px solid var(--color-border);
   padding-bottom: 20px;
   width: 100%;
+  transition: var(--theme-transition);
 }
 
 .header-logo {
@@ -283,7 +319,8 @@ body {
   font-size: 10px;
   letter-spacing: 0.18em;
   text-align: center;
-  color: rgba(10, 10, 10, 0.6);
+  color: var(--color-fg);
+  opacity: 0.6;
 }
 
 .header-meta {
@@ -291,7 +328,8 @@ body {
   font-size: 11px;
   letter-spacing: 0.1em;
   text-align: right;
-  color: rgba(10, 10, 10, 0.8);
+  color: var(--color-fg);
+  opacity: 0.8;
 }
 
 .header-meta .divider {
@@ -313,7 +351,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s, transform 0.3s;
+  transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
 }
 
 .menu-btn-circle:hover {
@@ -341,10 +379,12 @@ body {
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 0.25em;
-  color: rgba(10, 10, 10, 0.4);
+  color: var(--color-fg);
+  opacity: 0.4;
   white-space: nowrap;
   pointer-events: none;
   z-index: 10;
+  transition: var(--theme-transition), opacity 0.8s;
 }
 
 .colophon-left {
@@ -384,9 +424,15 @@ body {
 
 .orbital-line {
   fill: none;
-  stroke: rgba(10, 10, 10, 0.08);
+  stroke: var(--color-fg);
+  opacity: 0.08;
   stroke-width: 0.75px;
   transform-origin: center;
+  transition: stroke 0.8s, opacity 0.8s;
+}
+
+body.dark-mode .orbital-line {
+  opacity: 0.15;
 }
 
 .line-1 {
@@ -396,7 +442,6 @@ body {
 
 .line-2 {
   animation: rotateOrbital2 30s linear infinite reverse;
-  stroke: rgba(10, 10, 10, 0.12);
 }
 
 .line-3 {
@@ -471,8 +516,8 @@ body {
   font-weight: 500;
   letter-spacing: 0.15em;
   color: var(--color-fg);
-  border: 1px solid var(--color-border-active);
-  background-color: rgba(247, 245, 241, 0.8);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
   backdrop-filter: blur(4px);
   padding: 6px 12px;
   border-radius: 4px;
@@ -480,6 +525,7 @@ body {
   z-index: 4;
   opacity: 0;
   animation: fadeInLabel 1s ease-out 0.8s forwards;
+  transition: var(--theme-transition);
 }
 
 .label-1 { top: 22%; left: 15%; transform: rotate(-5deg); }
@@ -495,7 +541,8 @@ body {
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.2em;
-  color: rgba(10, 10, 10, 0.7);
+  color: var(--color-fg);
+  opacity: 0.7;
   margin-top: 30px;
   position: relative;
   z-index: 3;
@@ -509,6 +556,7 @@ body {
   border-top: 1px solid var(--color-border);
   padding-top: 24px;
   width: 100%;
+  transition: var(--theme-transition);
 }
 
 .cta-primary {
@@ -524,7 +572,10 @@ body {
   padding: 10px 16px;
   border: 1px solid var(--color-fg);
   border-radius: 40px;
-  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s;
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.2s, 
+              border-color 0.4s;
 }
 
 .cta-primary:hover {
@@ -557,7 +608,8 @@ body {
 .spec-label {
   font-family: var(--font-mono);
   font-size: 9px;
-  color: rgba(10, 10, 10, 0.4);
+  color: var(--color-fg);
+  opacity: 0.4;
   letter-spacing: 0.1em;
 }
 
@@ -571,7 +623,7 @@ body {
 .action-btn-circle {
   width: 48px;
   height: 48px;
-  border: 1px solid var(--color-border-active);
+  border: 1px solid var(--color-border);
   border-radius: 50%;
   background: transparent;
   display: flex;
@@ -593,6 +645,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: color 0.3s;
 }
 
 .arrow-up-right {
@@ -617,6 +670,7 @@ body {
   color: var(--color-bg);
   overflow: hidden;
   padding: 18px 0;
+  transition: var(--theme-transition);
 }
 
 .marquee-container {
@@ -650,6 +704,7 @@ body {
   padding: 16vh 0;
   border-bottom: 1px solid var(--color-border);
   position: relative;
+  transition: var(--theme-transition);
 }
 
 .manifesto-label {
@@ -695,13 +750,15 @@ body {
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.2em;
-  color: rgba(10, 10, 10, 0.4);
+  color: var(--color-fg);
+  opacity: 0.4;
 }
 
 /* 8. SERVIÇOS */
 .section-services {
   padding: 14vh 0;
   border-bottom: 1px solid var(--color-border);
+  transition: var(--theme-transition);
 }
 
 .section-title-wrapper {
@@ -722,6 +779,7 @@ body {
   grid-template-columns: repeat(3, 1fr);
   border-left: 1px solid var(--color-border);
   border-right: 1px solid var(--color-border);
+  transition: var(--theme-transition);
 }
 
 .service-card {
@@ -733,31 +791,20 @@ body {
   min-height: 380px;
   border-right: 1px solid var(--color-border);
   background-color: transparent;
-  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), var(--theme-transition);
 }
 
 .service-card:last-child {
   border-right: none;
 }
 
-.service-card::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 0;
-  background-color: rgba(10, 10, 10, 0.02);
-  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: -1;
-}
-
-.service-card:hover::after {
-  height: 100%;
-}
-
+/* Hover suave com leve tingimento laranja nos cards */
 .service-card:hover {
   background-color: rgba(255, 85, 0, 0.015);
+}
+
+body.dark-mode .service-card:hover {
+  background-color: rgba(255, 85, 0, 0.03); /* Brilho levemente mais forte no escuro */
 }
 
 .card-border-top {
@@ -793,7 +840,8 @@ body {
 .card-code {
   font-family: var(--font-mono);
   font-size: 9px;
-  color: rgba(10, 10, 10, 0.4);
+  color: var(--color-fg);
+  opacity: 0.4;
   letter-spacing: 0.1em;
 }
 
@@ -805,18 +853,20 @@ body {
   letter-spacing: -0.02em;
   margin-top: 40px;
   color: var(--color-fg);
-  transition: transform 0.3s;
+  transition: transform 0.3s, color 0.3s;
 }
 
 .service-card:hover .card-title {
   transform: translate3d(5px, 0, 0);
+  color: var(--color-accent); /* O título brilha em laranja no hover */
 }
 
 .card-desc {
   font-family: var(--font-body);
   font-size: 14px;
   line-height: 1.6;
-  color: rgba(10, 10, 10, 0.75);
+  color: var(--color-fg);
+  opacity: 0.8;
   margin-top: 15px;
   flex-grow: 1;
 }
@@ -825,19 +875,22 @@ body {
   align-self: flex-end;
   font-family: var(--font-mono);
   font-size: 20px;
-  color: rgba(10, 10, 10, 0.3);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s;
+  color: var(--color-fg);
+  opacity: 0.3;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s, color 0.4s;
 }
 
 .service-card:hover .card-arrow {
   transform: translate3d(4px, -4px, 0) scale(1.15);
   color: var(--color-accent);
+  opacity: 1;
 }
 
 /* 9. PROCESSO */
 .section-process {
   padding: 14vh 0;
   border-bottom: 1px solid var(--color-border);
+  transition: var(--theme-transition);
 }
 
 .process-timeline-container {
@@ -854,6 +907,7 @@ body {
   height: 2px;
   background-color: var(--color-border);
   z-index: 1;
+  transition: var(--theme-transition);
 }
 
 .timeline-progress {
@@ -861,7 +915,7 @@ body {
   top: 0;
   left: 0;
   height: 100%;
-  width: 20%; /* Controlado via JS */
+  width: 20%;
   background: linear-gradient(90deg, var(--color-accent-grad-1), var(--color-accent-grad-2));
   transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -889,9 +943,10 @@ body {
 .step-num {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: rgba(10, 10, 10, 0.4);
+  color: var(--color-fg);
+  opacity: 0.4;
   margin-bottom: 12px;
-  transition: color 0.3s;
+  transition: color 0.3s, opacity 0.3s;
 }
 
 .step-dot {
@@ -899,8 +954,9 @@ body {
   height: 10px;
   border-radius: 50%;
   background-color: var(--color-bg);
-  border: 2px solid rgba(10, 10, 10, 0.4);
-  transition: border-color 0.4s, background-color 0.4s, transform 0.4s;
+  border: 2px solid var(--color-fg);
+  opacity: 0.4;
+  transition: border-color 0.4s, background-color 0.4s, transform 0.4s, box-shadow 0.4s, opacity 0.4s;
 }
 
 .step-content {
@@ -922,19 +978,26 @@ body {
   font-family: var(--font-body);
   font-size: 13px;
   line-height: 1.6;
-  color: rgba(10, 10, 10, 0.7);
+  color: var(--color-fg);
+  opacity: 0.7;
 }
 
 /* Estados Ativos da Timeline */
 .process-step.active .step-num {
   color: var(--color-accent);
+  opacity: 1;
 }
 
 .process-step.active .step-dot {
   border-color: var(--color-accent);
   background-color: var(--color-accent);
+  opacity: 1;
   transform: scale(1.3);
   box-shadow: 0 0 12px rgba(255, 85, 0, 0.4);
+}
+
+body.dark-mode .process-step.active .step-dot {
+  box-shadow: 0 0 16px var(--color-accent); /* Brilho neon mais destacado no escuro */
 }
 
 .process-step.active .step-content {
@@ -950,6 +1013,7 @@ body {
 .section-works {
   padding: 14vh 0;
   border-bottom: 1px solid var(--color-border);
+  transition: var(--theme-transition);
 }
 
 .works-grid {
@@ -966,26 +1030,25 @@ body {
   color: var(--color-fg);
 }
 
-/* Grid Assimétrico: Large (ocupa 3 colunas), Small (ocupa 2 colunas) */
-.work-card.large {
-  grid-column: span 3;
-}
-
-.work-card.small {
-  grid-column: span 2;
-}
+.work-card.large { grid-column: span 3; }
+.work-card.small { grid-column: span 2; }
 
 .work-image-wrapper {
   position: relative;
   width: 100%;
-  padding-bottom: 70%; /* Ratio */
+  padding-bottom: 70%;
   overflow: hidden;
   background-color: #e5e0d8;
   border: 1px solid var(--color-border);
   border-radius: 4px;
+  transition: border-color 0.8s, background-color 0.8s;
 }
 
-/* Placeholders de imagem ultra-premium em CSS com blueprinting e gradients */
+body.dark-mode .work-image-wrapper {
+  background-color: #121212;
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
 .work-image-placeholder {
   position: absolute;
   top: 0;
@@ -997,7 +1060,7 @@ body {
   background-position: center;
 }
 
-/* Imagem 1: Aether Interaction System (Wireframes & Laranja) */
+/* Estilos de preview (CSS Art) */
 .img-1 {
   background: radial-gradient(circle at 70% 30%, rgba(255, 85, 0, 0.15), transparent 60%),
               linear-gradient(210deg, #111 0%, #222 100%);
@@ -1011,7 +1074,6 @@ body {
   background-size: 16px 16px;
 }
 
-/* Imagem 2: Chroma Art Platform (Espectros e Neon) */
 .img-2 {
   background: linear-gradient(135deg, rgba(255, 61, 0, 0.2) 0%, rgba(255, 179, 0, 0.05) 50%, rgba(10, 10, 10, 0.9) 100%),
               radial-gradient(circle at 10% 90%, #3a3a3a 0%, #1a1a1a 100%);
@@ -1027,7 +1089,6 @@ body {
   letter-spacing: 0.2em;
 }
 
-/* Imagem 3: Onyx Digital Catalog (Moda editorial e grids) */
 .img-3 {
   background: linear-gradient(to right, rgba(10, 10, 10, 0.95), rgba(30, 30, 30, 0.9));
 }
@@ -1043,7 +1104,6 @@ body {
   background: linear-gradient(45deg, rgba(255, 85, 0, 0.05) 0%, transparent 100%);
 }
 
-/* Imagem 4: Kinetik Typography */
 .img-4 {
   background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05), transparent 70%),
               #121212;
@@ -1061,7 +1121,6 @@ body {
   letter-spacing: 0.3em;
 }
 
-/* Imagem 5: Helios Renewable Dashboard */
 .img-5 {
   background: radial-gradient(circle at 50% 0%, rgba(255, 179, 0, 0.2) 0%, rgba(10, 10, 10, 0.95) 75%);
 }
@@ -1076,12 +1135,11 @@ body {
   background-size: 100% 20px;
 }
 
-/* Hover Zoom */
 .work-card:hover .work-image-placeholder {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
-/* Project Meta Specs Overlay */
+/* Hover Specs Overlay */
 .work-overlay {
   position: absolute;
   inset: 0;
@@ -1104,7 +1162,7 @@ body {
   gap: 12px;
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--color-bg);
+  color: #F7F5F1;
   letter-spacing: 0.12em;
   text-align: center;
   transform: translateY(15px);
@@ -1115,11 +1173,6 @@ body {
   transform: translateY(0);
 }
 
-.overlay-specs span {
-  display: block;
-}
-
-/* Info */
 .work-info {
   margin-top: 20px;
   display: flex;
@@ -1133,19 +1186,27 @@ body {
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--color-fg);
+  transition: color 0.3s;
+}
+
+.work-card:hover .work-title {
+  color: var(--color-accent);
 }
 
 .work-category {
   font-family: var(--font-mono);
   font-size: clamp(9px, 0.8vw, 11px);
-  color: rgba(10, 10, 10, 0.5);
+  color: var(--color-fg);
+  opacity: 0.5;
   letter-spacing: 0.05em;
+  transition: var(--theme-transition);
 }
 
 /* 11. DEPOIMENTOS */
 .section-testimonials {
   padding: 16vh 0;
   border-bottom: 1px solid var(--color-border);
+  transition: var(--theme-transition);
 }
 
 .testimonial-wrapper {
@@ -1160,8 +1221,8 @@ body {
   line-height: 1.35;
   letter-spacing: -0.03em;
   color: var(--color-fg);
-  position: relative;
   font-style: italic;
+  transition: var(--theme-transition);
 }
 
 .testimonial-author {
@@ -1181,8 +1242,10 @@ body {
 .author-title {
   font-family: var(--font-mono);
   font-size: 10px;
-  color: rgba(10, 10, 10, 0.5);
+  color: var(--color-fg);
+  opacity: 0.5;
   letter-spacing: 0.1em;
+  transition: var(--theme-transition);
 }
 
 .testimonial-spec {
@@ -1191,6 +1254,11 @@ body {
   color: var(--color-accent);
   letter-spacing: 0.15em;
   margin-top: 15px;
+  transition: color 0.3s;
+}
+
+body.dark-mode .testimonial-spec {
+  text-shadow: 0 0 10px rgba(255, 85, 0, 0.4);
 }
 
 /* 12. CTA FINAL */
@@ -1199,14 +1267,17 @@ body {
   border-bottom: 1px solid var(--color-border);
   position: relative;
   overflow: hidden;
+  transition: var(--theme-transition);
 }
 
 .cta-label {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.18em;
-  color: rgba(10, 10, 10, 0.6);
+  color: var(--color-fg);
+  opacity: 0.6;
   margin-bottom: 50px;
+  transition: var(--theme-transition);
 }
 
 .cta-content-wrapper {
@@ -1241,12 +1312,21 @@ body {
   padding: 18px 36px;
   border-radius: 60px;
   box-shadow: 0 10px 30px rgba(10, 10, 10, 0.05);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.4s, 
+              color 0.4s;
+}
+
+/* No modo escuro o botão principal inverte as cores para manter a legibilidade */
+body.dark-mode .cta-button-main {
+  background-color: var(--color-fg);
+  color: var(--color-bg);
 }
 
 .cta-button-main:hover {
   transform: translate3d(0, -5px, 0);
   background-color: var(--color-accent);
+  color: var(--color-bg);
 }
 
 .arrow-circle {
@@ -1260,7 +1340,12 @@ body {
   justify-content: center;
   font-size: 18px;
   font-family: var(--font-mono);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s, color 0.4s;
+}
+
+body.dark-mode .arrow-circle {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
 }
 
 .cta-button-main:hover .arrow-circle {
@@ -1286,6 +1371,7 @@ body {
   border-top: 1px solid var(--color-border);
   background-color: var(--color-bg);
   position: relative;
+  transition: var(--theme-transition);
 }
 
 .footer-grid {
@@ -1294,6 +1380,7 @@ body {
   gap: 50px;
   padding-bottom: 80px;
   border-bottom: 1px solid var(--color-border);
+  transition: var(--theme-transition);
 }
 
 .footer-col {
@@ -1306,7 +1393,9 @@ body {
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.15em;
-  color: rgba(10, 10, 10, 0.4);
+  color: var(--color-fg);
+  opacity: 0.4;
+  transition: var(--theme-transition);
 }
 
 .col-links {
@@ -1322,7 +1411,7 @@ body {
   font-family: var(--font-display);
   font-size: 14px;
   font-weight: 600;
-  transition: color 0.3s, padding-left 0.3s;
+  transition: color 0.3s, padding-left 0.3s, var(--theme-transition);
 }
 
 .col-links a:hover {
@@ -1334,8 +1423,10 @@ body {
   font-family: var(--font-mono);
   font-size: 11px;
   line-height: 1.8;
-  color: rgba(10, 10, 10, 0.8);
+  color: var(--color-fg);
+  opacity: 0.8;
   letter-spacing: 0.05em;
+  transition: var(--theme-transition);
 }
 
 .footer-clock {
@@ -1361,9 +1452,11 @@ body {
 .footer-specs {
   font-family: var(--font-mono);
   font-size: 10px;
-  color: rgba(10, 10, 10, 0.4);
+  color: var(--color-fg);
+  opacity: 0.4;
   display: flex;
   gap: 15px;
+  transition: var(--theme-transition);
 }
 
 .footer-specs .divider {
@@ -1437,7 +1530,6 @@ body {
 }
 
 @media (max-width: 768px) {
-  /* Simplifica elementos flutuantes pesados no mobile para preservar FPS e poluição visual */
   .micro-label, .orbital-container, .colophon-left, .colophon-right {
     display: none !important;
   }

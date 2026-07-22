@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SYNAPSE LAB // INTERACTIVE & MOTION LOGIC
+   SYNAPSE LAB // INTERACTIVE & MOTION LOGIC (OPTIMIZED FOR 60FPS)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let dotX = mouseX;
   let dotY = mouseY;
   
+  // Otimização: Coleta rápida de coordenadas (sem reflows)
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
@@ -23,17 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Loop de atualização do cursor com interpolação suave (Lerp)
   function animateCursor() {
     const lerpOuter = 0.15; // Suavidade da circunferência externa
-    const lerpInner = 0.35; // Suavidade do ponto interno (mais rápido)
+    const lerpInner = 0.35; // Suavidade do ponto interno
 
     cursorX += (mouseX - cursorX) * lerpOuter;
     cursorY += (mouseY - cursorY) * lerpOuter;
     dotX += (mouseX - dotX) * lerpInner;
     dotY += (mouseY - dotY) * lerpInner;
 
-    cursor.style.left = `${cursorX}px`;
-    cursor.style.top = `${cursorY}px`;
-    cursorDot.style.left = `${dotX}px`;
-    cursorDot.style.top = `${dotY}px`;
+    // Transforma usando translate3d para aceleração de hardware (GPU)
+    cursor.style.transform = `translate3d(calc(${cursorX}px - 50%), calc(${cursorY}px - 50%), 0)`;
+    cursorDot.style.transform = `translate3d(calc(${dotX}px - 50%), calc(${dotY}px - 50%), 0)`;
 
     requestAnimationFrame(animateCursor);
   }
@@ -66,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Zoom/Expand Action
     zoomAction.addEventListener('click', () => {
       document.body.classList.toggle('interface-expanded');
-      // Adiciona animação de pulso temporário
       zoomAction.style.transform = 'scale(0.9)';
       setTimeout(() => {
         zoomAction.style.transform = 'none';
@@ -75,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // 2. PARALLAX COM MOUSE NOS WARP BLOBS DE FUNDO
+  // 2. PARALLAX COM MOUSE NOS WARP BLOBS DE FUNDO (OTIMIZADO)
   const blobs = document.querySelectorAll('.warp-blob');
   let blobTargetX = 0;
   let blobTargetY = 0;
@@ -83,23 +82,20 @@ document.addEventListener('DOMContentLoaded', () => {
   let blobCurrentY = 0;
 
   document.addEventListener('mousemove', (e) => {
-    // Calcula o deslocamento do mouse em relação ao centro da tela (-0.5 a 0.5)
     const normX = (e.clientX / window.innerWidth) - 0.5;
     const normY = (e.clientY / window.innerHeight) - 0.5;
     
-    // Sensibilidade do deslocamento dos blobs
-    blobTargetX = normX * 80;
-    blobTargetY = normY * 80;
+    blobTargetX = normX * 60; // Deslocamento sutil para suavidade
+    blobTargetY = normY * 60;
   });
 
   function animateBlobs() {
-    // Interpolação muito suave para sensação flutuante
     blobCurrentX += (blobTargetX - blobCurrentX) * 0.04;
     blobCurrentY += (blobTargetY - blobCurrentY) * 0.04;
 
     blobs.forEach((blob, index) => {
-      // Cada blob se move em uma velocidade (profundidade) diferente
-      const factor = (index + 1) * 0.55;
+      const factor = (index + 1) * 0.45;
+      // Usando translate3d para garantir renderização suave
       blob.style.transform = `translate3d(${blobCurrentX * factor}px, ${blobCurrentY * factor}px, 0)`;
     });
 
@@ -108,14 +104,39 @@ document.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(animateBlobs);
 
 
-  // 3. HORA LOCAL DINÂMICA (UTC-3 & ZÜRICH)
+  // 3. TRANSIÇÃO DE MODO ESCURO BASEADA NO SCROLL (OTIMIZADA)
+  let scrollTick = false;
+  
+  document.addEventListener('scroll', () => {
+    if (!scrollTick) {
+      window.requestAnimationFrame(() => {
+        // Ativa o modo escuro a partir de 30% da viewport vertical
+        const scrollThreshold = window.innerHeight * 0.3;
+        
+        if (window.scrollY > scrollThreshold) {
+          if (!document.body.classList.contains('dark-mode')) {
+            document.body.classList.add('dark-mode');
+          }
+        } else {
+          if (document.body.classList.contains('dark-mode')) {
+            document.body.classList.remove('dark-mode');
+          }
+        }
+        scrollTick = false;
+      });
+      scrollTick = true;
+    }
+  });
+
+
+  // 4. HORA LOCAL DINÂMICA (UTC-3 & ZÜRICH)
   const timeDisplay = document.querySelector('.time-display');
   const footerClock = document.querySelector('.footer-clock');
 
   function updateClocks() {
     const now = new Date();
     
-    // 1. Hora UTC-3 (Estúdio/Freelancer local)
+    // Hora local (São Paulo / UTC-3)
     const optionsLocal = {
       timeZone: 'America/Sao_Paulo',
       hour: '2-digit',
@@ -123,22 +144,19 @@ document.addEventListener('DOMContentLoaded', () => {
       second: '2-digit',
       hour12: false
     };
-    
     const optionsDate = {
       timeZone: 'America/Sao_Paulo',
       day: '2-digit',
       month: '2-digit',
       year: 'numeric'
     };
-
     const timeStringLocal = new Intl.DateTimeFormat('pt-BR', optionsLocal).format(now);
     const dateStringLocal = new Intl.DateTimeFormat('pt-BR', optionsDate).format(now);
-    
     if (timeDisplay) {
       timeDisplay.textContent = `${timeStringLocal} UTC-3 / ${dateStringLocal}`;
     }
 
-    // 2. Hora de Zürich (Fuso Suíço)
+    // Hora de Zürich (Suíça)
     const optionsZurich = {
       timeZone: 'Europe/Zurich',
       hour: '2-digit',
@@ -147,7 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
       timeZoneName: 'short',
       hour12: false
     };
-
     const timeStringZurich = new Intl.DateTimeFormat('pt-BR', optionsZurich).format(now);
     if (footerClock) {
       footerClock.textContent = timeStringZurich;
@@ -155,10 +172,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   setInterval(updateClocks, 1000);
-  updateClocks(); // Execução inicial
+  updateClocks();
 
 
-  // 4. MONITOR DE TAXA DE QUADROS (FPS COUNTER)
+  // 5. MONITOR DE TAXA DE QUADROS (FPS COUNTER)
   const fpsValue = document.querySelector('.fps-value');
   let lastFrameTime = performance.now();
   let frames = 0;
@@ -171,8 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const currentFPS = Math.round((frames * 1000) / (now - lastFrameTime));
       if (fpsValue) {
         fpsValue.textContent = `${currentFPS} FPS`;
-        // Ajusta a cor caso haja quedas significativas
-        if (currentFPS < 50) {
+        if (currentFPS < 52) {
           fpsValue.style.color = 'var(--color-accent)';
         } else {
           fpsValue.style.color = '';
@@ -187,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(monitorFPS);
 
 
-  // 5. INTERATIVIDADE NA TIMELINE DO PROCESSO
+  // 6. INTERATIVIDADE NA TIMELINE DO PROCESSO
   const processSteps = document.querySelectorAll('.process-step');
   const progressLine = document.querySelector('.timeline-progress');
   
@@ -211,14 +227,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
       
-      // Atualiza a largura da barra de progresso (em porcentagem)
       const percent = (index / (processSteps.length - 1)) * 100;
       progressLine.style.width = `${percent}%`;
     }
   }
 
 
-  // 6. ANIMAÇÃO DE ENTRADA AO SCROLLAR (REVEAL ANIMATIONS ON SCROLL)
+  // 7. ANIMAÇÃO DE ENTRADA AO SCROLLAR (REVEAL ANIMATIONS ON SCROLL)
   const revealElements = [
     document.querySelector('.manifesto-text'),
     document.querySelector('.services-grid'),
@@ -231,22 +246,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const observerOptions = {
     root: null,
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    threshold: 0.08,
+    rootMargin: '0px 0px -40px 0px'
   };
 
   const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('revealed');
-        observer.unobserve(entry.target); // Deixa de observar uma vez revelado
+        observer.unobserve(entry.target);
       }
     });
   }, observerOptions);
 
   revealElements.forEach(el => {
     if (el) {
-      // Adiciona estilo de preparação de reveal
       el.classList.add('reveal-init');
       observer.observe(el);
     }
@@ -254,20 +268,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-// Adiciona estilos dinâmicos de reveal diretamente no documento para manter style.css focado
+// Adiciona estilos dinâmicos de reveal e expansão diretamente no documento
 const styleReveal = document.createElement('style');
 styleReveal.textContent = `
   .reveal-init {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translate3d(0, 25px, 0);
     transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
   }
   .reveal-init.revealed {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
   
-  /* Expansão da interface ao clicar no botão de Zoom */
   body.interface-expanded {
     --grid-margin: 1.5vw;
   }
