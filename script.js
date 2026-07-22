@@ -273,6 +273,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // 8. EFEITO TILT 3D NO TÍTULO HERO (INSPIRADO EM FLUTTER TILT / VANILLA TILT)
+  const heroCenter = document.querySelector('.hero-center');
+  const heroTitle = document.querySelector('.hero-title');
+  
+  let tiltX = 0;
+  let tiltY = 0;
+  let currentTiltX = 0;
+  let currentTiltY = 0;
+  
+  if (heroCenter && heroTitle) {
+    heroCenter.addEventListener('mousemove', (e) => {
+      const rect = heroCenter.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+      
+      // Coordenadas normalizadas em relação ao centro (-1 a 1)
+      const mouseXRel = (e.clientX - rect.left - width / 2) / (width / 2);
+      const mouseYRel = (e.clientY - rect.top - height / 2) / (height / 2);
+      
+      // Rotação máxima de 12 graus
+      const maxTilt = 12;
+      tiltY = mouseXRel * maxTilt;  // Rotação no eixo Y (Yaw)
+      tiltX = -mouseYRel * maxTilt; // Rotação no eixo X (Pitch)
+    });
+    
+    heroCenter.addEventListener('mouseleave', () => {
+      tiltX = 0;
+      tiltY = 0;
+    });
+    
+    // Loop de renderização suavizado (Lerp) para Spring/Easing Effect no Tilt
+    function updateTilt() {
+      const lerpFactor = 0.08; // Suavidade da desaceleração
+      
+      currentTiltX += (tiltX - currentTiltX) * lerpFactor;
+      currentTiltY += (tiltY - currentTiltY) * lerpFactor;
+      
+      // Aplica a rotação 3D ao título
+      heroTitle.style.transform = `perspective(1000px) rotateX(${currentTiltX}deg) rotateY(${currentTiltY}deg)`;
+      
+      requestAnimationFrame(updateTilt);
+    }
+    requestAnimationFrame(updateTilt);
+  }
+
 });
 
 // Adiciona estilos dinâmicos de reveal e expansão diretamente no documento
