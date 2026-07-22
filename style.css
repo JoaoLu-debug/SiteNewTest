@@ -764,45 +764,76 @@ body {
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border-left: 1px solid var(--color-border);
-  border-right: 1px solid var(--color-border);
+  gap: 20px;
+  perspective: 1200px;
 }
 
 .service-card {
   position: relative;
-  padding: 50px 40px;
+  padding: 40px 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 380px;
-  border-right: 1px solid var(--color-border);
-  background-color: transparent;
-  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background-color: var(--color-bg);
+  overflow: hidden;
+  
+  /* 3D magnetic tilt properties */
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  transition: border-color 0.3s, 
+              background-color 0.8s, 
+              opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+              transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.service-card:last-child {
-  border-right: none;
+/* Sibling focus-dim effect */
+.service-card.dimmed {
+  opacity: 0.45;
+  transform: scale(0.96) translateZ(-20px) !important;
 }
 
-.service-card:hover {
-  background-color: rgba(255, 85, 0, calc(0.015 + (0.015 * var(--dark-progress))));
-}
-
-.card-border-top {
+/* Static accent glow */
+.card-accent-tint {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background-color: var(--color-border);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.6s;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 20% 20%, var(--card-accent-alpha-1) 0%, transparent 65%);
+  z-index: 1;
 }
 
-.service-card:hover .card-border-top {
-  transform: scaleX(1);
-  background-color: var(--color-accent);
+/* Hover dynamic spotlight glow */
+.card-glow-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse at var(--mouse-x, 20%) var(--mouse-y, 20%), var(--card-accent-alpha-2) 0%, transparent 65%);
+  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 2;
+}
+
+.service-card:hover .card-glow-layer {
+  opacity: 1;
+}
+
+/* Shimmer sweep effect */
+.card-shimmer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  transform: translateX(-100%) skewX(-12deg);
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 3;
+}
+
+.service-card:hover .card-shimmer {
+  transform: translateX(180%) skewX(-12deg);
 }
 
 .card-header {
@@ -810,12 +841,29 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  position: relative;
+  z-index: 4;
 }
 
-.card-num {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--color-accent);
+/* Rounded Icon badge */
+.card-icon-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--card-accent-alpha-1);
+  border: 1px solid var(--card-accent-alpha-3);
+  color: var(--card-accent-color);
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  transform-style: preserve-3d;
+  transform: translateZ(20px);
+}
+
+.service-card:hover .card-icon-badge {
+  transform: translateZ(30px) scale(1.05);
+  box-shadow: 0 0 15px var(--card-accent-alpha-2);
 }
 
 .card-code {
@@ -826,20 +874,35 @@ body {
   letter-spacing: 0.1em;
 }
 
+.card-body-content {
+  margin-top: auto;
+  position: relative;
+  z-index: 4;
+  transform-style: preserve-3d;
+  transform: translateZ(10px);
+}
+
+.card-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--card-accent-color);
+  display: block;
+  margin-bottom: 10px;
+}
+
 .card-title {
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  margin-top: 40px;
   color: var(--color-fg);
   transition: transform 0.3s, color 0.3s;
 }
 
 .service-card:hover .card-title {
   transform: translate3d(5px, 0, 0);
-  color: var(--color-accent);
+  color: var(--card-accent-color);
 }
 
 .card-desc {
@@ -848,8 +911,7 @@ body {
   line-height: 1.6;
   color: var(--color-fg);
   opacity: 0.8;
-  margin-top: 15px;
-  flex-grow: 1;
+  margin-top: 12px;
 }
 
 .card-arrow {
@@ -859,12 +921,32 @@ body {
   color: var(--color-fg);
   opacity: 0.3;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s, color 0.4s;
+  position: relative;
+  z-index: 4;
+  transform: translateZ(15px);
 }
 
 .service-card:hover .card-arrow {
-  transform: translate3d(4px, -4px, 0) scale(1.15);
-  color: var(--color-accent);
+  transform: translate3d(4px, -4px, 30px) scale(1.15);
+  color: var(--card-accent-color);
   opacity: 1;
+}
+
+/* Accent bottom line */
+.card-bottom-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(to right, var(--card-accent-color) 80%, transparent);
+  transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 5;
+  border-radius: 0 0 16px 16px;
+}
+
+.service-card:hover .card-bottom-line {
+  width: 100%;
 }
 
 /* 9. PROCESSO */

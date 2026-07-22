@@ -317,6 +317,75 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     requestAnimationFrame(updateTilt);
   }
+  // 9. FEATURE GRID TILT E SIBLING-DIM (INSPIRADO EM KOKONUTUI)
+  const serviceCards = document.querySelectorAll('.service-card');
+  
+  serviceCards.forEach(card => {
+    // Inicializa propriedades de animação
+    card.tiltX = 0;
+    card.tiltY = 0;
+    card.currentTiltX = 0;
+    card.currentTiltY = 0;
+    
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+      
+      // Coordenadas relativas do cursor (0 a 1)
+      const relX = (e.clientX - rect.left) / width;
+      const relY = (e.clientY - rect.top) / height;
+      
+      // Atualiza variáveis CSS do cursor para o gradiente de spotlight
+      card.style.setProperty('--mouse-x', `${relX * 100}%`);
+      card.style.setProperty('--mouse-y', `${relY * 100}%`);
+      
+      // Rotação máxima do card (9 graus como na constante TILT_MAX)
+      const maxTilt = 9;
+      card.tiltY = (relX - 0.5) * maxTilt * 2;  // Rotação no eixo Y (Yaw)
+      card.tiltX = -(relY - 0.5) * maxTilt * 2; // Rotação no eixo X (Pitch)
+    });
+    
+    card.addEventListener('mouseenter', () => {
+      // Dimmer nos cards irmãos (siblings)
+      serviceCards.forEach(otherCard => {
+        if (otherCard !== card) {
+          otherCard.classList.add('dimmed');
+        }
+      });
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      // Reseta a rotação
+      card.tiltX = 0;
+      card.tiltY = 0;
+      
+      // Remove dimmer dos irmãos
+      serviceCards.forEach(otherCard => {
+        otherCard.classList.remove('dimmed');
+      });
+    });
+  });
+  
+  // Loop de renderização suavizado (Lerp) para os cards de serviço
+  function updateCardTilts() {
+    const lerpFactor = 0.12; // Suavidade da desaceleração
+    
+    serviceCards.forEach(card => {
+      card.currentTiltX += (card.tiltX - card.currentTiltX) * lerpFactor;
+      card.currentTiltY += (card.tiltY - card.currentTiltY) * lerpFactor;
+      
+      // Só aplica transform se estiver ativamente rotacionado (para preservar CSS transitions)
+      if (Math.abs(card.currentTiltX) > 0.01 || Math.abs(card.currentTiltY) > 0.01) {
+        card.style.transform = `perspective(900px) rotateX(${card.currentTiltX}deg) rotateY(${card.currentTiltY}deg)`;
+      } else {
+        card.style.transform = '';
+      }
+    });
+    
+    requestAnimationFrame(updateCardTilts);
+  }
+  requestAnimationFrame(updateCardTilts);
 
 });
 
