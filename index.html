@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SYNAPSE // Estúdio de Desenvolvimento Web & Design Contemporâneo</title>
-  <meta name="description" content="Estúdio boutique de desenvolvimento web e design de interfaces. Estética contemporânea, engenharia precisa e soluções digitais premium.">
+  <title>SYNAPSE // Web Development Studio & Contemporary Design</title>
+  <meta name="description" content="Premium web development and interface design studio. Contemporary aesthetics, precise engineering, and high-end digital systems.">
   
-  <!-- Fontes Premium -->
+  <!-- Premium Fonts -->
   <link rel="preconnect" href="https://api.fontshare.com">
   <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@500;600;700&f[]=general-sans@400;500;600&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,29 +17,18 @@
 </head>
 <body>
 
-  <!-- Cursor Customizado -->
+  <!-- Custom Cursor -->
   <div class="custom-cursor"></div>
   <div class="custom-cursor-dot"></div>
 
-  <!-- Warp Blobs Atmosféricos de Fundo -->
+  <!-- Atmospheric Background Warp Blobs -->
   <div class="warp-blobs-container">
     <div class="warp-blob blob-1"></div>
     <div class="warp-blob blob-2"></div>
     <div class="warp-blob blob-3"></div>
   </div>
 
-  <!-- Filtro SVG para o efeito Warp/Liquid/Smoke -->
-  <svg class="svg-filters" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <filter id="warp-filter">
-        <!-- Cria uma turbulência que gera uma distorção fluida orgânica -->
-        <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="4" result="noise" />
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="180" xChannelSelector="R" yChannelSelector="G" />
-      </filter>
-    </defs>
-  </svg>
-
-  <!-- Container de Bordas Globais e Crop Marks de Impressão -->
+  <!-- Global Print Crop Marks -->
   <div class="crop-mark top-left">+</div>
   <div class="crop-mark top-right">+</div>
   <div class="crop-mark bottom-left">+</div>
@@ -52,7 +41,7 @@
   <section class="section-hero" id="hero">
     <div class="grid-container">
       
-      <!-- Header Fino -->
+      <!-- Fine Header -->
       <header class="hero-header">
         <div class="header-logo hover-target">
           <span class="logo-symbol">+</span> SYNAPSE // LAB
@@ -65,14 +54,14 @@
           <span class="divider">/</span>
           <span class="version-display">V2.026_SYS</span>
         </div>
-        <div class="header-action hover-target" aria-label="Menu de Navegação">
+        <div class="header-action hover-target" aria-label="Navigation Menu">
           <div class="menu-btn-circle">
             <span class="circle-dot"></span>
           </div>
         </div>
       </header>
 
-      <!-- Elementos Decorativos Laterais (Colophon) -->
+      <!-- Side Editorial Colophons -->
       <div class="colophon-left">
         <span class="colophon-text">SWISS GRAPHIC TRADITION • RE-IMAGINED IN CODE</span>
       </div>
@@ -80,18 +69,18 @@
         <span class="colophon-text">LATITUDE: -23.5505° S, LONGITUDE: -46.6333° W</span>
       </div>
 
-      <!-- Área Central do Título com Elementos Orbitais -->
+      <!-- Title Area with Orbital Ellipses -->
       <div class="hero-center">
-        <!-- SVG Orbital sobreposto -->
+        <!-- SVG Orbital Lines -->
         <div class="orbital-container">
           <svg viewBox="0 0 800 400" width="100%" height="100%">
-            <!-- Órbita 1 -->
+            <!-- Orbit 1 -->
             <ellipse cx="400" cy="200" rx="360" ry="120" class="orbital-line line-1" />
-            <!-- Órbita 2 -->
+            <!-- Orbit 2 -->
             <ellipse cx="400" cy="200" rx="340" ry="80" class="orbital-line line-2" />
-            <!-- Órbita 3 -->
+            <!-- Orbit 3 -->
             <ellipse cx="400" cy="200" rx="380" ry="150" class="orbital-line line-3" />
-            <!-- Estrelas de registro -->
+            <!-- Registration marks -->
             <path d="M 120 160 L 130 160 M 125 155 L 125 165" class="orbital-marker" />
             <path d="M 680 240 L 690 240 M 685 235 L 685 245" class="orbital-marker" />
           </svg>
@@ -102,33 +91,33 @@
           <span class="line-reveal orange-text"><span class="layer-z2">DEVELOPMENT.</span></span>
         </h1>
 
-        <!-- Microlabels Flutuantes -->
-        <div class="micro-label label-1">*DIVERGENTE</div>
-        <div class="micro-label label-2">*CRIATIVO</div>
-        <div class="micro-label label-3">*PRECISO</div>
+        <!-- Floating Microlabels -->
+        <div class="micro-label label-1">*DIVERSE</div>
+        <div class="micro-label label-2">*CREATIVE</div>
+        <div class="micro-label label-3">*PRECISE</div>
 
-        <!-- Numeração Técnica estilo catálogo -->
+        <!-- Technical Catalogue Number -->
         <div class="technical-number">00.42g // DSGN-2026</div>
       </div>
 
-      <!-- Rodapé do Hero -->
+      <!-- Hero Footer -->
       <footer class="hero-footer">
         <a href="#trabalhos" class="cta-primary hover-target">
           <span class="cta-arrow">→</span>
-          <span class="cta-text">VER TRABALHOS / INICIAR PROJETO</span>
+          <span class="cta-text">VIEW WORK / START PROJECT</span>
         </a>
         <div class="hero-footer-specs">
           <div class="spec-item">
-            <span class="spec-label">ESTILO:</span>
-            <span class="spec-value">MODERNO SUÍÇO</span>
+            <span class="spec-label">STYLE:</span>
+            <span class="spec-value">MODERN SWISS</span>
           </div>
           <div class="spec-item">
-            <span class="spec-label">FPS DA PÁGINA:</span>
+            <span class="spec-label">PAGE FPS:</span>
             <span class="spec-value fps-value">60 FPS</span>
           </div>
         </div>
         <div class="action-btn-container hover-target" id="zoom-action">
-          <button class="action-btn-circle" aria-label="Expandir Interface">
+          <button class="action-btn-circle" aria-label="Expand Interface">
             <div class="zoom-icon">
               <span class="arrow-up-right">↗</span>
               <span class="arrow-down-left">↙</span>
@@ -156,12 +145,12 @@
   <section class="section-manifesto" id="manifesto">
     <div class="grid-container">
       <div class="manifesto-label">
-        <span class="cruz">+</span> [ 01 — SOBRE / MANIFESTO ]
+        <span class="cruz">+</span> [ 01 — ABOUT / MANIFESTO ]
       </div>
       
       <div class="manifesto-content">
         <p class="manifesto-text">
-          Desenvolvemos arquiteturas digitais que desafiam o óbvio. Unindo a precisão técnica da <strong class="hover-target">engenharia suíça</strong> à expressividade do design contemporâneo, transformamos conceitos complexos em interfaces digitais inesquecíveis, rápidas e memoráveis.
+          We develop digital architectures that challenge the obvious. Combining the technical precision of <strong class="hover-target">Swiss engineering</strong> with the expressiveness of contemporary design, we transform complex concepts into unforgettable, fast, and memorable digital interfaces.
         </p>
       </div>
 
@@ -171,12 +160,12 @@
     </div>
   </section>
 
-  <!-- 4. SERVIÇOS -->
+  <!-- 4. SERVICES -->
   <section class="section-services" id="servicos">
     <div class="grid-container">
       <div class="section-title-wrapper">
         <span class="cruz">+</span>
-        <span class="section-title-label">[ 02 — SERVIÇOS E COMPETÊNCIAS ]</span>
+        <span class="section-title-label">[ 02 — SERVICES & COMPETENCIES ]</span>
       </div>
 
       <div class="services-grid">
@@ -197,7 +186,7 @@
           <div class="card-body-content">
             <span class="card-num">01/03</span>
             <h3 class="card-title">CREATIVE DEVELOPMENT</h3>
-            <p class="card-desc">Desenvolvimento front-end premium com animações fluidas, efeitos de WebGL personalizados, shaders interativos e experiência de scroll imersiva.</p>
+            <p class="card-desc">Premium front-end development with fluid animations, custom WebGL effects, interactive shaders, and immersive scroll experiences.</p>
           </div>
           <div class="card-arrow">↗</div>
         </div>
@@ -219,7 +208,7 @@
           <div class="card-body-content">
             <span class="card-num">02/03</span>
             <h3 class="card-title">EDITORIAL ART DIRECTION</h3>
-            <p class="card-desc">Direção de arte conceitual e design de interfaces focado em layouts editoriais assimétricos, tipografia dramática e contrastes marcantes.</p>
+            <p class="card-desc">Conceptual art direction and interface design focused on asymmetric editorial layouts, dramatic typography, and striking contrasts.</p>
           </div>
           <div class="card-arrow">↗</div>
         </div>
@@ -241,7 +230,7 @@
           <div class="card-body-content">
             <span class="card-num">03/03</span>
             <h3 class="card-title">FULLSTACK ENGINEERING</h3>
-            <p class="card-desc">Arquitetura de sistemas robusta, APIs ultra-rápidas utilizando Next.js, Node.js e bancos de dados relacionais com foco em performance bruta.</p>
+            <p class="card-desc">Robust systems architecture, ultra-fast APIs utilizing Next.js, Node.js, and relational databases focused on raw performance.</p>
           </div>
           <div class="card-arrow">↗</div>
         </div>
@@ -249,78 +238,78 @@
     </div>
   </section>
 
-  <!-- 5. PROCESSO -->
+  <!-- 5. PROCESS -->
   <section class="section-process" id="processo">
     <div class="grid-container">
       <div class="section-title-wrapper">
         <span class="cruz">+</span>
-        <span class="section-title-label">[ 03 — PROCESSO DE CRIAÇÃO ]</span>
+        <span class="section-title-label">[ 03 — CREATIVE PROCESS ]</span>
       </div>
 
-      <!-- Timeline Horizontal -->
+      <!-- Horizontal Timeline -->
       <div class="process-timeline-container">
         <div class="timeline-line">
           <div class="timeline-progress"></div>
         </div>
         
         <div class="process-steps">
-          <!-- Etapa 1 -->
+          <!-- Step 1 -->
           <div class="process-step hover-target active" data-step="0">
             <div class="step-marker">
               <span class="step-num">00</span>
               <div class="step-dot"></div>
             </div>
             <div class="step-content">
-              <h4 class="step-title">ANÁLISE E CONCEITO</h4>
-              <p class="step-desc">Mapeamento de objetivos, desconstrução tipográfica, referências visuais contemporâneas e planejamento estrutural.</p>
+              <h4 class="step-title">ANALYSIS & CONCEPT</h4>
+              <p class="step-desc">Mapping objectives, typographical deconstruction, contemporary visual references, and structural planning.</p>
             </div>
           </div>
 
-          <!-- Etapa 2 -->
+          <!-- Step 2 -->
           <div class="process-step hover-target" data-step="1">
             <div class="step-marker">
               <span class="step-num">01</span>
               <div class="step-dot"></div>
             </div>
             <div class="step-content">
-              <h4 class="step-title">PROTOTIPAGEM GRÁFICA</h4>
-              <p class="step-desc">Definição do grid, testes tipográficos de display, posicionamento dos elementos estruturais e microtexto técnico.</p>
+              <h4 class="step-title">GRAPHIC PROTOTYPING</h4>
+              <p class="step-desc">Grid definition, display typography testing, positioning structural elements, and technical microtext.</p>
             </div>
           </div>
 
-          <!-- Etapa 3 -->
+          <!-- Step 3 -->
           <div class="process-step hover-target" data-step="2">
             <div class="step-marker">
               <span class="step-num">02</span>
               <div class="step-dot"></div>
             </div>
             <div class="step-content">
-              <h4 class="step-title">DESENVOLVIMENTO DE INTERAÇÃO</h4>
-              <p class="step-desc">Programação de animações de transição, física de movimento no cursor, efeitos warp nos blobs laranja e lógica front-end.</p>
+              <h4 class="step-title">INTERACTION DEVELOPMENT</h4>
+              <p class="step-desc">Programming transition animations, custom cursor physics, warp effects on background blobs, and front-end logic.</p>
             </div>
           </div>
 
-          <!-- Etapa 4 -->
+          <!-- Step 4 -->
           <div class="process-step hover-target" data-step="3">
             <div class="step-marker">
               <span class="step-num">03</span>
               <div class="step-dot"></div>
             </div>
             <div class="step-content">
-              <h4 class="step-title">INTEGRAÇÃO E BACK-END</h4>
-              <p class="step-desc">Conexão de APIs, otimização de consultas ao banco de dados, servidores Edge e infraestrutura escalável.</p>
+              <h4 class="step-title">INTEGRATION & BACK-END</h4>
+              <p class="step-desc">API connection, database query optimization, Edge servers, and scalable infrastructure.</p>
             </div>
           </div>
 
-          <!-- Etapa 5 -->
+          <!-- Step 5 -->
           <div class="process-step hover-target" data-step="4">
             <div class="step-marker">
               <span class="step-num">04</span>
               <div class="step-dot"></div>
             </div>
             <div class="step-content">
-              <h4 class="step-title">OTIMIZAÇÃO E DEPLOY</h4>
-              <p class="step-desc">Auditorias de performance (Lighthouse 100/100), testes de renderização cruzada e publicação em redes de CDN globais.</p>
+              <h4 class="step-title">OPTIMIZATION & DEPLOY</h4>
+              <p class="step-desc">Performance audits (Lighthouse 100/100), cross-rendering tests, and global CDN deployment.</p>
             </div>
           </div>
         </div>
@@ -328,23 +317,23 @@
     </div>
   </section>
 
-  <!-- 6. TRABALHOS SELECIONADOS -->
+  <!-- 6. SELECTED WORKS -->
   <section class="section-works" id="trabalhos">
     <div class="grid-container">
       <div class="section-title-wrapper">
         <span class="cruz">+</span>
-        <span class="section-title-label">[ 04 — TRABALHOS SELECIONADOS ]</span>
+        <span class="section-title-label">[ 04 — SELECTED WORKS ]</span>
       </div>
 
       <div class="works-grid">
-        <!-- Item Grande 1 -->
+        <!-- Large Item 1 -->
         <div class="work-card large hover-target">
           <div class="work-image-wrapper">
             <div class="work-image-placeholder img-1"></div>
             <div class="work-overlay">
               <div class="overlay-specs">
-                <span>CLIENTE: AETHER LABS</span>
-                <span>ANO: 2026</span>
+                <span>CLIENT: AETHER LABS</span>
+                <span>YEAR: 2026</span>
                 <span>STACK: NEXT.JS + WEBGL</span>
               </div>
             </div>
@@ -355,14 +344,14 @@
           </div>
         </div>
 
-        <!-- Item Grande 2 -->
+        <!-- Large Item 2 -->
         <div class="work-card large hover-target">
           <div class="work-image-wrapper">
             <div class="work-image-placeholder img-2"></div>
             <div class="work-overlay">
               <div class="overlay-specs">
-                <span>CLIENTE: CHROMA GALLERY</span>
-                <span>ANO: 2025</span>
+                <span>CLIENT: CHROMA GALLERY</span>
+                <span>YEAR: 2025</span>
                 <span>STACK: REACT + THREE.JS</span>
               </div>
             </div>
@@ -373,14 +362,14 @@
           </div>
         </div>
 
-        <!-- Item Pequeno 1 -->
+        <!-- Small Item 1 -->
         <div class="work-card small hover-target">
           <div class="work-image-wrapper">
             <div class="work-image-placeholder img-3"></div>
             <div class="work-overlay">
               <div class="overlay-specs">
-                <span>CLIENTE: ONYX LABEL</span>
-                <span>ANO: 2026</span>
+                <span>CLIENT: ONYX LABEL</span>
+                <span>YEAR: 2026</span>
                 <span>STACK: VANILLA JS + SHADERS</span>
               </div>
             </div>
@@ -391,14 +380,14 @@
           </div>
         </div>
 
-        <!-- Item Pequeno 2 -->
+        <!-- Small Item 2 -->
         <div class="work-card small hover-target">
           <div class="work-image-wrapper">
             <div class="work-image-placeholder img-4"></div>
             <div class="work-overlay">
               <div class="overlay-specs">
-                <span>CLIENTE: KINETIK EXHIBIT</span>
-                <span>ANO: 2025</span>
+                <span>CLIENT: KINETIK EXHIBIT</span>
+                <span>YEAR: 2025</span>
                 <span>STACK: NODE.JS + GSAP</span>
               </div>
             </div>
@@ -409,14 +398,14 @@
           </div>
         </div>
 
-        <!-- Item Pequeno 3 -->
+        <!-- Small Item 3 -->
         <div class="work-card small hover-target">
           <div class="work-image-wrapper">
             <div class="work-image-placeholder img-5"></div>
             <div class="work-overlay">
               <div class="overlay-specs">
-                <span>CLIENTE: HELIOS ENERGIES</span>
-                <span>ANO: 2026</span>
+                <span>CLIENT: HELIOS ENERGIES</span>
+                <span>YEAR: 2026</span>
                 <span>STACK: NEXT.JS + PRISMA</span>
               </div>
             </div>
@@ -430,21 +419,21 @@
     </div>
   </section>
 
-  <!-- 7. DEPOIMENTOS -->
+  <!-- 7. TESTIMONIALS -->
   <section class="section-testimonials" id="depoimentos">
     <div class="grid-container">
       <div class="section-title-wrapper">
         <span class="cruz">+</span>
-        <span class="section-title-label">[ 05 — FEEDBACK / PARCEIROS ]</span>
+        <span class="section-title-label">[ 05 — FEEDBACK / PARTNERS ]</span>
       </div>
 
       <div class="testimonial-wrapper">
         <blockquote class="testimonial-quote">
-          "A equipe do Synapse Lab elevou nossa presença digital a um patamar que não imaginávamos possível. O alinhamento entre sua técnica refinada e estética editorial contemporânea transformou nosso produto."
+          "The Synapse Lab team elevated our digital presence to a level we never thought possible. The alignment between their refined technical engineering and contemporary editorial aesthetics completely transformed our product."
         </blockquote>
         <div class="testimonial-author">
           <span class="author-name">MARCUS BERNHARD</span>
-          <span class="author-title">/ DIRETOR DE TECNOLOGIA, AETHER LABS</span>
+          <span class="author-title">/ CHIEF TECHNOLOGY OFFICER, AETHER LABS</span>
         </div>
         <div class="testimonial-spec">
           REF-ID: 99.412.AETH // CODE-VERIFIED
@@ -453,20 +442,20 @@
     </div>
   </section>
 
-  <!-- 8. CTA FINAL -->
+  <!-- 8. FINAL CTA -->
   <section class="section-cta-final" id="contato">
     <div class="grid-container">
-      <div class="cta-label">[ 06 — ENTRAR EM CONTATO ]</div>
+      <div class="cta-label">[ 06 — GET IN TOUCH ]</div>
       
       <div class="cta-content-wrapper">
         <h2 class="cta-title">
-          VAMOS CONSTRUIR <br>
-          <span class="orange-text">O SEU PRÓXIMO SISTEMA?</span>
+          LET'S BUILD <br>
+          <span class="orange-text">YOUR NEXT SYSTEM?</span>
         </h2>
         
         <div class="cta-buttons">
           <a href="mailto:hello@synapselab.ch" class="cta-button-main hover-target">
-            <span>INICIAR PROJETO</span>
+            <span>START PROJECT</span>
             <div class="arrow-circle">↗</div>
           </a>
         </div>
@@ -484,22 +473,22 @@
     <div class="grid-container">
       <div class="footer-grid">
         
-        <!-- Coluna 1: Links de Navegação -->
+        <!-- Column 1: Navigation -->
         <div class="footer-col">
-          <span class="col-title">[ NAVEGAÇÃO ]</span>
+          <span class="col-title">[ NAVIGATION ]</span>
           <ul class="col-links">
-            <li><a href="#hero" class="hover-target">00_INÍCIO</a></li>
+            <li><a href="#hero" class="hover-target">00_HOME</a></li>
             <li><a href="#manifesto" class="hover-target">01_MANIFESTO</a></li>
-            <li><a href="#servicos" class="hover-target">02_SERVIÇOS</a></li>
-            <li><a href="#processo" class="hover-target">03_PROCESSO</a></li>
-            <li><a href="#trabalhos" class="hover-target">04_TRABALHOS</a></li>
-            <li><a href="#contato" class="hover-target">05_CONTATO</a></li>
+            <li><a href="#servicos" class="hover-target">02_SERVICES</a></li>
+            <li><a href="#processo" class="hover-target">03_PROCESS</a></li>
+            <li><a href="#trabalhos" class="hover-target">04_WORKS</a></li>
+            <li><a href="#contato" class="hover-target">05_CONTACT</a></li>
           </ul>
         </div>
 
-        <!-- Coluna 2: Redes e Plataformas -->
+        <!-- Column 2: Networks -->
         <div class="footer-col">
-          <span class="col-title">[ REDES / EXP ]</span>
+          <span class="col-title">[ NETWORKS / EXP ]</span>
           <ul class="col-links">
             <li><a href="https://github.com" target="_blank" rel="noopener" class="hover-target">GITHUB ↗</a></li>
             <li><a href="https://linkedin.com" target="_blank" rel="noopener" class="hover-target">LINKEDIN ↗</a></li>
@@ -509,29 +498,29 @@
           </ul>
         </div>
 
-        <!-- Coluna 3: Endereço / Coordenadas / Relógio -->
+        <!-- Column 3: Information -->
         <div class="footer-col text-col">
-          <span class="col-title">[ INFORMAÇÃO ]</span>
+          <span class="col-title">[ INFORMATION ]</span>
           <p class="footer-text-content">
             SYNAPSE LAB INC.<br>
-            ZÜRICH, SUÍÇA (REMOTO)<br>
-            COORDENADAS: 47.3769° N, 8.5417° E<br>
-            FUSO HORÁRIO: <span class="footer-clock">00:00:00 GMT+1</span>
+            ZÜRICH, SWITZERLAND (REMOTE)<br>
+            COORDINATES: 47.3769° N, 8.5417° E<br>
+            TIMEZONE: <span class="footer-clock">00:00:00 GMT+1</span>
           </p>
         </div>
 
-        <!-- Coluna 4: Créditos Finais -->
+        <!-- Column 4: Credits -->
         <div class="footer-col credits-col">
-          <span class="col-title">[ CRÉDITOS ]</span>
+          <span class="col-title">[ CREDITS ]</span>
           <p class="footer-text-content">
-            CONCEITO VISUAL: SWISS LAB<br>
-            CÓDIGO & ART: ANTIGRAVITY<br>
-            ©2026 TODOS OS DIREITOS RESERVADOS
+            VISUAL CONCEPT: SWISS LAB<br>
+            CODE & ART: ANTIGRAVITY<br>
+            ©2026 ALL RIGHTS RESERVED
           </p>
         </div>
       </div>
 
-      <!-- Barra final do Footer -->
+      <!-- Footer Bottom -->
       <div class="footer-bottom">
         <div class="footer-logo">
           <span>SYNAPSE // LAB</span>
@@ -539,7 +528,7 @@
         <div class="footer-specs">
           <span>CODE-EAN-13: 7611112223334</span>
           <span class="divider">|</span>
-          <span>ESTADO: ESTÁVEL</span>
+          <span>STATUS: STABLE</span>
         </div>
       </div>
     </div>
