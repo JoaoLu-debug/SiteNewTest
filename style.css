@@ -1,34 +1,42 @@
 /* ==========================================================================
-   SYNAPSE LAB // SYSTEM DESIGN SYSTEM & STYLING (OPTIMIZED FOR 60FPS)
+   SYNAPSE LAB // SYSTEM DESIGN SYSTEM & STYLING (GRADUAL TRANSLATION)
    Estética Editorial de Luxo / Design Gráfico Contemporâneo Suíço
    ========================================================================== */
 
 /* 1. VARIÁVEIS E CONFIGURAÇÃO BASE */
 :root {
-  --color-bg: #F7F5F1;            /* Creme Off-white padrão */
-  --color-fg: #0A0A0A;            /* Preto profundo */
+  --color-bg-light: #F7F5F1;       /* Creme Off-white padrão */
+  --color-bg-dark: #0A0A0A;        /* Preto profundo de fundo */
+  
+  --color-fg-light: #0A0A0A;       /* Preto profundo para texto */
+  --color-fg-dark: #F7F5F1;        /* Creme para texto */
+  
+  --color-border-light: rgba(10, 10, 10, 0.08);
+  --color-border-dark: rgba(247, 245, 241, 0.08);
+  
+  /* Progresso dinâmico do scroll de 0 (topo/claro) a 1 (baixo/escuro) */
+  --dark-progress: 0;
+  
+  /* Cores mescladas dinamicamente usando color-mix nativo acelerado */
+  --color-bg: color-mix(in srgb, var(--color-bg-dark) calc(var(--dark-progress) * 100%), var(--color-bg-light));
+  --color-fg: color-mix(in srgb, var(--color-fg-dark) calc(var(--dark-progress) * 100%), var(--color-fg-light));
+  --color-border: color-mix(in srgb, var(--color-border-dark) calc(var(--dark-progress) * 100%), var(--color-border-light));
+  
   --color-accent: #FF5500;        /* Laranja vibrante principal */
   --color-accent-grad-1: #FF6A00; /* Laranja gradiente início */
   --color-accent-grad-2: #FF3D00; /* Laranja gradiente fim */
   --color-accent-amber: #FFB300;  /* Âmbar */
-  --color-border: rgba(10, 10, 10, 0.08); /* Linhas finas de grid */
-  --color-border-active: rgba(10, 10, 10, 0.2);
+  --color-border-active: rgba(255, 85, 0, 0.4);
   
   --font-display: 'Clash Grotesk', 'Neue Montreal', 'General Sans', sans-serif;
   --font-body: 'General Sans', sans-serif;
   --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
   
   --grid-margin: 3.5vw;
-  --theme-transition: background-color 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
-                      color 0.8s cubic-bezier(0.25, 1, 0.5, 1),
-                      border-color 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Redefinição do Tema Escuro Gradual */
+/* Fallback do Tema Escuro */
 body.dark-mode {
-  --color-bg: #0A0A0A;            /* Preto profundo de fundo */
-  --color-fg: #F7F5F1;            /* Creme Off-white para tipografia */
-  --color-border: rgba(247, 245, 241, 0.08); /* Borda fina clara */
   --color-border-active: rgba(255, 85, 0, 0.4);
 }
 
@@ -48,7 +56,6 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  transition: var(--theme-transition);
 }
 
 body {
@@ -57,7 +64,6 @@ body {
   min-height: 100vh;
   background-color: var(--color-bg);
   color: var(--color-fg);
-  transition: var(--theme-transition);
 }
 
 /* 2. LAYOUT E BORDAS GLOBAIS (CROP MARKS / GRID) */
@@ -69,7 +75,6 @@ body {
   background-color: var(--color-border);
   z-index: 100;
   pointer-events: none;
-  transition: var(--theme-transition);
 }
 
 .global-border-left { left: var(--grid-margin); }
@@ -81,14 +86,10 @@ body {
   font-family: var(--font-mono);
   font-size: 14px;
   font-weight: 300;
-  color: rgba(10, 10, 10, 0.3);
+  /* Transiciona de cor suavemente através do progress */
+  color: color-mix(in srgb, rgba(247, 245, 241, 0.2) calc(var(--dark-progress) * 100%), rgba(10, 10, 10, 0.3));
   z-index: 101;
   pointer-events: none;
-  transition: var(--theme-transition);
-}
-
-body.dark-mode .crop-mark {
-  color: rgba(247, 245, 241, 0.2);
 }
 
 .top-left { top: 15px; left: 15px; }
@@ -113,11 +114,8 @@ body.dark-mode .crop-mark {
   margin-right: 8px;
   display: inline-block;
   transform: translateY(-1px);
-  transition: color 0.8s, text-shadow 0.8s;
-}
-
-body.dark-mode .cruz {
-  text-shadow: 0 0 8px rgba(255, 85, 0, 0.4);
+  /* Sombra brilhante gradual com base no scroll */
+  text-shadow: 0 0 calc(var(--dark-progress) * 8px) rgba(255, 85, 0, calc(var(--dark-progress) * 0.4));
 }
 
 /* 3. GPU-ACCELERATED BACKGROUND BLOBS (Otimizados para 60FPS) */
@@ -135,16 +133,11 @@ body.dark-mode .cruz {
 .warp-blob {
   position: absolute;
   border-radius: 50%;
-  /* Desfoque CSS nativo acelerado por GPU (eliminando feDisplacementMap lento) */
   filter: blur(90px) saturate(1.4);
-  opacity: 0.75;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-in-out;
+  /* Opacidade gradual de 75% a 12% baseado na profundidade do scroll */
+  opacity: calc(0.75 - (0.63 * var(--dark-progress)));
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
-}
-
-/* Suavização de opacidade dos blobs no modo escuro para focar nos componentes de UI */
-body.dark-mode .warp-blob {
-  opacity: 0.12; /* Fundo extremamente sutil/atmosférico no modo escuro */
 }
 
 /* Blob 1 - Hero background */
@@ -189,7 +182,6 @@ body.dark-mode .warp-blob {
   animation: float-blob-3 30s infinite alternate ease-in-out;
 }
 
-/* Animações Flutuantes dos Blobs (Trabalhando apenas com translates para evitar layouts reflows) */
 @keyframes float-blob-1 {
   0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
   50% { transform: translate3d(-4%, 6%, 0) rotate(60deg) scale(1.05); }
@@ -208,11 +200,6 @@ body.dark-mode .warp-blob {
   100% { transform: translate3d(4%, 4%, 0) rotate(90deg) scale(0.95); }
 }
 
-/* Desativa filtros SVG pesados que causavam gargalos na CPU */
-.svg-filters {
-  display: none;
-}
-
 /* 4. CURSOR CUSTOMIZADO */
 .custom-cursor {
   width: 28px;
@@ -224,7 +211,7 @@ body.dark-mode .warp-blob {
   pointer-events: none;
   z-index: 9999;
   transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s, transform 0.05s ease-out;
-  mix-blend-mode: difference; /* Perfeito para transição claro/escuro */
+  mix-blend-mode: difference;
 }
 
 .custom-cursor-dot {
@@ -239,20 +226,13 @@ body.dark-mode .warp-blob {
   transition: transform 0.1s ease-out, background-color 0.3s;
 }
 
-/* Estados Especiais do Cursor (em hover) */
 .custom-cursor.hovering {
   width: 60px;
   height: 60px;
   background-color: var(--color-fg);
   border-color: var(--color-fg);
-  opacity: 0.15;
+  opacity: calc(0.15 + (0.07 * var(--dark-progress)));
   mix-blend-mode: normal;
-}
-
-body.dark-mode .custom-cursor.hovering {
-  background-color: var(--color-fg);
-  border-color: var(--color-fg);
-  opacity: 0.22;
 }
 
 .custom-cursor-dot.hovering {
@@ -285,7 +265,6 @@ body.dark-mode .custom-cursor.hovering {
   border-bottom: 1px solid var(--color-border);
   padding-top: 2vh;
   padding-bottom: 4vh;
-  transition: var(--theme-transition);
 }
 
 /* Header Fino */
@@ -296,7 +275,6 @@ body.dark-mode .custom-cursor.hovering {
   border-bottom: 1px solid var(--color-border);
   padding-bottom: 20px;
   width: 100%;
-  transition: var(--theme-transition);
 }
 
 .header-logo {
@@ -380,11 +358,10 @@ body.dark-mode .custom-cursor.hovering {
   font-size: 9px;
   letter-spacing: 0.25em;
   color: var(--color-fg);
-  opacity: 0.4;
+  opacity: calc(0.4 - (0.2 * var(--dark-progress))); /* Ficam mais discretos no escuro */
   white-space: nowrap;
   pointer-events: none;
   z-index: 10;
-  transition: var(--theme-transition), opacity 0.8s;
 }
 
 .colophon-left {
@@ -425,14 +402,9 @@ body.dark-mode .custom-cursor.hovering {
 .orbital-line {
   fill: none;
   stroke: var(--color-fg);
-  opacity: 0.08;
+  opacity: calc(0.08 + (0.07 * var(--dark-progress)));
   stroke-width: 0.75px;
   transform-origin: center;
-  transition: stroke 0.8s, opacity 0.8s;
-}
-
-body.dark-mode .orbital-line {
-  opacity: 0.15;
 }
 
 .line-1 {
@@ -525,7 +497,6 @@ body.dark-mode .orbital-line {
   z-index: 4;
   opacity: 0;
   animation: fadeInLabel 1s ease-out 0.8s forwards;
-  transition: var(--theme-transition);
 }
 
 .label-1 { top: 22%; left: 15%; transform: rotate(-5deg); }
@@ -556,7 +527,6 @@ body.dark-mode .orbital-line {
   border-top: 1px solid var(--color-border);
   padding-top: 24px;
   width: 100%;
-  transition: var(--theme-transition);
 }
 
 .cta-primary {
@@ -645,7 +615,6 @@ body.dark-mode .orbital-line {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: color 0.3s;
 }
 
 .arrow-up-right {
@@ -670,7 +639,6 @@ body.dark-mode .orbital-line {
   color: var(--color-bg);
   overflow: hidden;
   padding: 18px 0;
-  transition: var(--theme-transition);
 }
 
 .marquee-container {
@@ -704,7 +672,6 @@ body.dark-mode .orbital-line {
   padding: 16vh 0;
   border-bottom: 1px solid var(--color-border);
   position: relative;
-  transition: var(--theme-transition);
 }
 
 .manifesto-label {
@@ -758,7 +725,6 @@ body.dark-mode .orbital-line {
 .section-services {
   padding: 14vh 0;
   border-bottom: 1px solid var(--color-border);
-  transition: var(--theme-transition);
 }
 
 .section-title-wrapper {
@@ -779,7 +745,6 @@ body.dark-mode .orbital-line {
   grid-template-columns: repeat(3, 1fr);
   border-left: 1px solid var(--color-border);
   border-right: 1px solid var(--color-border);
-  transition: var(--theme-transition);
 }
 
 .service-card {
@@ -791,20 +756,15 @@ body.dark-mode .orbital-line {
   min-height: 380px;
   border-right: 1px solid var(--color-border);
   background-color: transparent;
-  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), var(--theme-transition);
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .service-card:last-child {
   border-right: none;
 }
 
-/* Hover suave com leve tingimento laranja nos cards */
 .service-card:hover {
-  background-color: rgba(255, 85, 0, 0.015);
-}
-
-body.dark-mode .service-card:hover {
-  background-color: rgba(255, 85, 0, 0.03); /* Brilho levemente mais forte no escuro */
+  background-color: rgba(255, 85, 0, calc(0.015 + (0.015 * var(--dark-progress))));
 }
 
 .card-border-top {
@@ -858,7 +818,7 @@ body.dark-mode .service-card:hover {
 
 .service-card:hover .card-title {
   transform: translate3d(5px, 0, 0);
-  color: var(--color-accent); /* O título brilha em laranja no hover */
+  color: var(--color-accent);
 }
 
 .card-desc {
@@ -890,7 +850,6 @@ body.dark-mode .service-card:hover {
 .section-process {
   padding: 14vh 0;
   border-bottom: 1px solid var(--color-border);
-  transition: var(--theme-transition);
 }
 
 .process-timeline-container {
@@ -907,7 +866,6 @@ body.dark-mode .service-card:hover {
   height: 2px;
   background-color: var(--color-border);
   z-index: 1;
-  transition: var(--theme-transition);
 }
 
 .timeline-progress {
@@ -993,11 +951,7 @@ body.dark-mode .service-card:hover {
   background-color: var(--color-accent);
   opacity: 1;
   transform: scale(1.3);
-  box-shadow: 0 0 12px rgba(255, 85, 0, 0.4);
-}
-
-body.dark-mode .process-step.active .step-dot {
-  box-shadow: 0 0 16px var(--color-accent); /* Brilho neon mais destacado no escuro */
+  box-shadow: 0 0 calc(12px + (4px * var(--dark-progress))) rgba(255, 85, 0, 0.4);
 }
 
 .process-step.active .step-content {
@@ -1013,7 +967,6 @@ body.dark-mode .process-step.active .step-dot {
 .section-works {
   padding: 14vh 0;
   border-bottom: 1px solid var(--color-border);
-  transition: var(--theme-transition);
 }
 
 .works-grid {
@@ -1038,15 +991,10 @@ body.dark-mode .process-step.active .step-dot {
   width: 100%;
   padding-bottom: 70%;
   overflow: hidden;
-  background-color: #e5e0d8;
+  /* Transiciona a cor de fundo do placeholder de creme para cinza escuro */
+  background-color: color-mix(in srgb, #121212 calc(var(--dark-progress) * 100%), #e5e0d8);
   border: 1px solid var(--color-border);
   border-radius: 4px;
-  transition: border-color 0.8s, background-color 0.8s;
-}
-
-body.dark-mode .work-image-wrapper {
-  background-color: #121212;
-  border-color: rgba(255, 255, 255, 0.05);
 }
 
 .work-image-placeholder {
@@ -1199,14 +1147,12 @@ body.dark-mode .work-image-wrapper {
   color: var(--color-fg);
   opacity: 0.5;
   letter-spacing: 0.05em;
-  transition: var(--theme-transition);
 }
 
 /* 11. DEPOIMENTOS */
 .section-testimonials {
   padding: 16vh 0;
   border-bottom: 1px solid var(--color-border);
-  transition: var(--theme-transition);
 }
 
 .testimonial-wrapper {
@@ -1222,7 +1168,6 @@ body.dark-mode .work-image-wrapper {
   letter-spacing: -0.03em;
   color: var(--color-fg);
   font-style: italic;
-  transition: var(--theme-transition);
 }
 
 .testimonial-author {
@@ -1245,7 +1190,6 @@ body.dark-mode .work-image-wrapper {
   color: var(--color-fg);
   opacity: 0.5;
   letter-spacing: 0.1em;
-  transition: var(--theme-transition);
 }
 
 .testimonial-spec {
@@ -1254,11 +1198,7 @@ body.dark-mode .work-image-wrapper {
   color: var(--color-accent);
   letter-spacing: 0.15em;
   margin-top: 15px;
-  transition: color 0.3s;
-}
-
-body.dark-mode .testimonial-spec {
-  text-shadow: 0 0 10px rgba(255, 85, 0, 0.4);
+  text-shadow: 0 0 calc(var(--dark-progress) * 10px) rgba(255, 85, 0, calc(var(--dark-progress) * 0.4));
 }
 
 /* 12. CTA FINAL */
@@ -1267,7 +1207,6 @@ body.dark-mode .testimonial-spec {
   border-bottom: 1px solid var(--color-border);
   position: relative;
   overflow: hidden;
-  transition: var(--theme-transition);
 }
 
 .cta-label {
@@ -1277,7 +1216,6 @@ body.dark-mode .testimonial-spec {
   color: var(--color-fg);
   opacity: 0.6;
   margin-bottom: 50px;
-  transition: var(--theme-transition);
 }
 
 .cta-content-wrapper {
@@ -1307,8 +1245,9 @@ body.dark-mode .testimonial-spec {
   font-family: var(--font-display);
   font-size: clamp(16px, 1.8vw, 24px);
   font-weight: 700;
-  color: var(--color-bg);
-  background-color: var(--color-fg);
+  /* Transiciona o botão de preto para off-white gradualmente */
+  color: color-mix(in srgb, var(--color-bg-dark) calc(var(--dark-progress) * 100%), var(--color-bg-light));
+  background-color: color-mix(in srgb, var(--color-fg-dark) calc(var(--dark-progress) * 100%), var(--color-fg-light));
   padding: 18px 36px;
   border-radius: 60px;
   box-shadow: 0 10px 30px rgba(10, 10, 10, 0.05);
@@ -1317,35 +1256,25 @@ body.dark-mode .testimonial-spec {
               color 0.4s;
 }
 
-/* No modo escuro o botão principal inverte as cores para manter a legibilidade */
-body.dark-mode .cta-button-main {
-  background-color: var(--color-fg);
-  color: var(--color-bg);
-}
-
 .cta-button-main:hover {
   transform: translate3d(0, -5px, 0);
   background-color: var(--color-accent);
-  color: var(--color-bg);
+  color: var(--color-bg-light);
 }
 
 .arrow-circle {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background-color: var(--color-bg);
-  color: var(--color-fg);
+  /* Inversão sutil do círculo da seta */
+  background-color: color-mix(in srgb, var(--color-bg-light) calc(var(--dark-progress) * 100%), var(--color-bg-dark));
+  color: color-mix(in srgb, var(--color-fg-light) calc(var(--dark-progress) * 100%), var(--color-fg-dark));
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
   font-family: var(--font-mono);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s, color 0.4s;
-}
-
-body.dark-mode .arrow-circle {
-  background-color: var(--color-bg);
-  color: var(--color-fg);
 }
 
 .cta-button-main:hover .arrow-circle {
@@ -1371,7 +1300,6 @@ body.dark-mode .arrow-circle {
   border-top: 1px solid var(--color-border);
   background-color: var(--color-bg);
   position: relative;
-  transition: var(--theme-transition);
 }
 
 .footer-grid {
@@ -1380,7 +1308,6 @@ body.dark-mode .arrow-circle {
   gap: 50px;
   padding-bottom: 80px;
   border-bottom: 1px solid var(--color-border);
-  transition: var(--theme-transition);
 }
 
 .footer-col {
@@ -1395,7 +1322,6 @@ body.dark-mode .arrow-circle {
   letter-spacing: 0.15em;
   color: var(--color-fg);
   opacity: 0.4;
-  transition: var(--theme-transition);
 }
 
 .col-links {
@@ -1411,7 +1337,7 @@ body.dark-mode .arrow-circle {
   font-family: var(--font-display);
   font-size: 14px;
   font-weight: 600;
-  transition: color 0.3s, padding-left 0.3s, var(--theme-transition);
+  transition: color 0.3s, padding-left 0.3s;
 }
 
 .col-links a:hover {
@@ -1426,7 +1352,6 @@ body.dark-mode .arrow-circle {
   color: var(--color-fg);
   opacity: 0.8;
   letter-spacing: 0.05em;
-  transition: var(--theme-transition);
 }
 
 .footer-clock {
@@ -1456,7 +1381,6 @@ body.dark-mode .arrow-circle {
   opacity: 0.4;
   display: flex;
   gap: 15px;
-  transition: var(--theme-transition);
 }
 
 .footer-specs .divider {

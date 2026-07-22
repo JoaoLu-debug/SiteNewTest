@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let dotX = mouseX;
   let dotY = mouseY;
   
-  // Otimização: Coleta rápida de coordenadas (sem reflows)
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
@@ -95,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     blobs.forEach((blob, index) => {
       const factor = (index + 1) * 0.45;
-      // Usando translate3d para garantir renderização suave
       blob.style.transform = `translate3d(${blobCurrentX * factor}px, ${blobCurrentY * factor}px, 0)`;
     });
 
@@ -104,16 +102,25 @@ document.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(animateBlobs);
 
 
-  // 3. TRANSIÇÃO DE MODO ESCURO BASEADA NO SCROLL (OTIMIZADA)
+  // 3. TRANSIÇÃO DE MODO ESCURO BASEADA NO SCROLL (PIXEL-PERFECT E GRADUAL)
   let scrollTick = false;
   
   document.addEventListener('scroll', () => {
     if (!scrollTick) {
       window.requestAnimationFrame(() => {
-        // Ativa o modo escuro a partir de 30% da viewport vertical
-        const scrollThreshold = window.innerHeight * 0.3;
+        const startScroll = 0;
+        // Transição lenta que termina quando o usuário rolar 1.2x a altura da tela
+        const endScroll = window.innerHeight * 1.2;
+        const scrollY = window.scrollY;
         
-        if (window.scrollY > scrollThreshold) {
+        // Calcula a porcentagem de progresso de 0 a 1
+        const progress = Math.min(Math.max((scrollY - startScroll) / (endScroll - startScroll), 0), 1);
+        
+        // Define a variável customizada no elemento raiz (HTML) para controle no CSS
+        document.documentElement.style.setProperty('--dark-progress', progress);
+        
+        // Mantém a classe dark-mode para mudanças estruturais binárias a partir de 50% do progresso
+        if (progress > 0.5) {
           if (!document.body.classList.contains('dark-mode')) {
             document.body.classList.add('dark-mode');
           }
